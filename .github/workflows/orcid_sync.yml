@@ -4,27 +4,46 @@ on:
     - cron: "0 5 * * 1"   # chaque lundi 05:00 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Fetch ORCID works
         env:
-          ORCID_ID: ${{ vars.ORCID_ID }}
+          ORCID_ID_VAR: ${{ vars.ORCID_ID }}
+          ORCID_ID_SECRET: ${{ secrets.ORCID_ID }}
         run: |
+          ORCID_ID="${ORCID_ID_VAR:-$ORCID_ID_SECRET}"
           if [ -z "$ORCID_ID" ]; then
-            echo "Configurez un Repository Variable ORCID_ID dans Settings > Secrets and variables > Actions > Variables"
+            echo "Ajoutez ORCID_ID (Variable ou Secret) dans Settings > Secrets and variables > Actions."
             exit 1
           fi
-          curl -sH "Accept: application/json" "https://pub.orcid.org/v3.0/${ORCID_ID}/works" \
-            | jq '[.group[] | .["work-summary"][0] as $w | {title: ($w.title.title.value // "Sans titre"), year: ($w["publication-date"].year.value // ""), journal: ($w["journal-title"].value // ""), url: ($w.url.value // ((.["external-ids"]["external-id"] // []) | map(select(.["external-id-type"]|ascii_downcase=="doi")) | .[0]["external-id-value"]? | if . then "https://doi.org/"+. else null end))}]' \
-            > publications.json
+
+          curl -s \
+            -H "Accept: application/vnd.orcid+json" \
+            -A "github-actions-orcid-sync" \
+            "https://pub.orcid.org/v3.0/${ORCID_ID}/works" \
+          | jq '[.group[] | .["work-summary"][0] as $w | {
+              title: ($w.title.title.value // "Sans titre"),
+              year:  ($w["publication-date"].year.value // ""),
+              journal: ($w["journal-title"].value // ""),
+              url: ($w.url.value // ((.["external-ids"]["external-id"] // [])
+                   | map(select(.["external-id-type"]|ascii_downcase=="doi"))
+                   | .[0]["external-id-value"]? | if . then "https://doi.org/"+. else null end))
+            }]' \
+          > publications.json
+
       - name: Commit publications.json
         run: |
-          if [ -n "$(git status --porcelain publications.json)" ]; then
+          if ! git diff --quiet -- publications.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add publications.json
