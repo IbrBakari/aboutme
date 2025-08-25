@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ibrahim Bakari — Épidémiologiste</title>
+  <meta name="description" content="Profil académique d'Ibrahim Bakari : épidémiologie, enseignement, publications et responsabilités collectives." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f6f8fb;--surface:#ffffff;--text:#0b1020;--muted:#5b6270;
+      --accent:#2f6ee5;--accent2:#6b7cff;--link:#1946c7;--ring:rgba(47,110,229,.16);--border:#e5e9f2
+    }
+    [data-theme="dark"]{
+      --bg:#0e1423;--surface:#111a2f;--muted:#9aa5b1;--text:#e9eef7;--accent:#4da3ff;--accent2:#6b7cff;--ring:rgba(77,163,255,.22);--link:#78aef6;--border:#1b2642
+    }
+    *{box-sizing:border-box} html,body{margin:0;height:100%}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1000px 700px at 90% -10%,#eef3ff,transparent),radial-gradient(900px 650px at -10% 10%,#f0f3f9,transparent),var(--bg);color:var(--text);line-height:1.6}
+    [data-theme="dark"] body{background:radial-gradient(1200px 800px at 80% -10%,#152041,transparent),radial-gradient(900px 700px at -10% 10%,#121a34,transparent),var(--bg)}
+    a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
+    .container{width:min(1100px,92%);margin:0 auto}
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.7);backdrop-filter:saturate(130%) blur(6px);border-bottom:1px solid var(--border)}
+    [data-theme="dark"] header{background:rgba(14,20,35,.75)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand .logo{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 0 5px var(--ring)}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .nav-links{display:flex;gap:14px}
+    .nav-links a{padding:8px 10px;border-radius:8px}
+    .nav-links a:hover{background:#eef2ff}
+    [data-theme="dark"] .nav-links a:hover{background:#172247}
+    .menu-btn,.theme-btn{background:#eef2ff;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px}
+    .theme-btn{display:inline-flex;align-items:center;gap:8px}
+    [data-theme="dark"] .menu-btn,[data-theme="dark"] .theme-btn{background:#172247}
+    .hero{padding:56px 0 28px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+    .title{font-size:36px;line-height:1.15;margin:0 0 8px}
+    .subtitle{color:var(--muted);margin:0 0 16px}
+    .section{padding:32px 0}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+    .grid{display:grid;gap:14px}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#eef2ff;border:1px solid var(--border);color:#22346b;font-weight:600;font-size:12px}
+    [data-theme="dark"] .badge{background:#172247;color:#cdd9ff;border-color:#223163}
+    .footer{padding:28px 0;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
+    h2{margin:0 0 12px}
+    ul.clean{margin:0;padding-left:18px}
+    input,textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#fff;color:#var(--text);outline:none}
+    [data-theme="dark"] input,[data-theme="dark"] textarea{background:#0d1533;color:#e9eef7}
+    input:focus,textarea:focus{border-color:#9db7ff;box-shadow:0 0 0 6px var(--ring)}
+    .pub{padding:10px;border-left:3px solid #c9d6ff}
+    [data-theme="dark"] .pub{border-left-color:#233261}
+    .note{font-size:12px;color:var(--muted)}
+    .pill{display:inline-block;padding:4px 10px;border:1px solid #cdd5e6;border-radius:999px;color:#36435c}
+    [data-theme="dark"] .pill{border-color:#31406f;color:#d3e1ff}
+    .portrait{padding:0;overflow:hidden}
+    .portrait img{width:100%;display:block;border-radius:12px;aspect-ratio:4/5;object-fit:cover;background:#f1f4fb}
+    [data-theme="dark"] .portrait img{background:#0d152e}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr}.nav-links{display:none}.title{font-size:28px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><div class="logo" aria-hidden="true"></div> Ibrahim Bakari</div>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks">
+          <a href="#accueil">Accueil</a>
+          <a href="#formation">Formation</a>
+          <a href="#publications">Publications</a>
+          <a href="#enseignement">Enseignement</a>
+          <a href="#responsabilites">Responsabilités</a>
+          <a href="#contact">Réseaux & Contact</a>
+        </nav>
+        <button class="theme-btn" id="themeBtn" aria-label="Basculer clair/sombre">🌓 <span class="hide-sm">Thème</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="accueil" class="hero">
+      <div>
+        <span class="badge">Épidémiologie — Recherche & Enseignement</span>
+        <h1 class="title">Ibrahim Bakari
+          <span style="display:block;font-size:.58em;font-weight:600;color:#5b6270">Doctorant en Santé Publique | Épidémiologie</span>
+        </h1>
+        <p class="subtitle">Expositions professionnelles et santé respiratoire. Analyses statistiques et pédagogie des outils R/SAS.</p>
+        <div class="grid cols-3">
+          <div class="card"><strong>Affiliation</strong><br><span class="muted">Université Paris-Saclay</span></div>
+          <div class="card"><strong>Laboratoire</strong><br><span class="muted">INSERM U1018 — Épidémiologie Respiratoire</span></div>
+          <div class="card"><strong>Localisation</strong><br><span class="muted">Villejuif, France</span></div>
+        </div>
+      </div>
+      <figure class="card portrait" aria-label="Photographie">
+        <img src="assets/img/portrait.jpg" alt="Photographie d’Ibrahim Bakari" loading="lazy" />
+      </figure>
+    </section>
+
+    <section id="formation" class="section">
+      <h2>Formation</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Diplôme en cours</h3>
+          <ul class="clean">
+            <li><strong>Doctorant en Santé Publique — spécialité Épidémiologie</strong>, Université Paris-Saclay (depuis 2022)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Double cursus</h3>
+          <ul class="clean">
+            <li><strong>M2 Santé Publique — Informatique Biomédicale</strong>, Université Sorbonne Paris Nord (2015)</li>
+            <li><strong>M1 Sciences & Santé — Biomolécules & Thérapies Expérimentales</strong>, Université Sorbonne Paris Nord (2014)</li>
+            <li><strong>M1 Santé Publique — Informatique Biomédicale</strong>, Université Sorbonne Paris Nord (2014)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3>Compétences techniques</h3>
+        <ul class="clean">
+          <li>R, SAS, Perl, HTML/PHP, MySQL, Linux</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="publications" class="section">
+      <h2>Publications <span id="pubCount" class="pill" title="Nombre d'entrées chargées" style="display:none"></span></h2>
+      <div class="card">
+        <div id="pubList">Chargement des publications ORCID…</div>
+        <div class="note">Synchronisé depuis ORCID (<a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener">0000-0002-7173-0727</a>). Fallback local : <code>publications.json</code>.</div>
+      </div>
+    </section>
+
+    <section id="enseignement" class="section">
+      <h2>Enseignement</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Cours</h3>
+          <ul class="clean">
+            <li>TP « R pour l’épidémiologie » — Master Santé Publique, Université Paris-Saclay</li>
+            <li>TP « Initiation à R » — UE Épidémiologie environnementale, Université de Paris</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Encadrement & autres</h3>
+          <ul class="clean">
+            <li>Mémoires et stages (épidémiologie/biostats)</li>
+            <li>Jury Bachelor Soins Infirmiers (Belgique, 2017)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="responsabilites" class="section">
+      <h2>Responsabilités collectives</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Confédération des Jeunes Chercheurs (CJC)</h3>
+          <p>Président (2023–2025). <a href="https://cjc.jeunes-chercheurs.org/" target="_blank" rel="noopener">Site de la CJC</a></p>
+        </div>
+        <div class="card">
+          <h3>DocSP — EDSP</h3>
+          <p>Vice-président (2023–2025). <a href="https://annuaire-entreprises.data.gouv.fr/entreprise/doc-sp-789490703" target="_blank" rel="noopener">Fiche annuaire</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Réseaux & Contact</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Me suivre</h3>
+          <ul class="clean">
+            <li><strong>ORCID</strong> : <a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener">0000-0002-7173-0727</a></li>
+            <li><strong>ResearchGate</strong> : <a href="https://www.researchgate.net/profile/Bakari-Ibrahim-2" target="_blank" rel="noopener">Profil</a></li>
+            <li><strong>LinkedIn</strong> : <a href="https://www.linkedin.com/in/ibrbakari/" target="_blank" rel="noopener">@ibrbakari</a></li>
+            <li><strong>X (Twitter)</strong> : <a href="https://x.com/IbrBakari" target="_blank" rel="noopener">@IbrBakari</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Me contacter</h3>
+          <form onsubmit="return handleSubmit(event)">
+            <label>
+              <span>Votre email</span>
+              <input type="email" required placeholder="you@example.com" />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea rows="4" required placeholder="Votre message…"></textarea>
+            </label>
+            <button class="btn primary" type="submit" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:600">Envoyer</button>
+            <div class="note">(Démo : affiche une notification. Pour un envoi réel : Formspree/Netlify.)</div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© <span id="year"></span> Ibrahim Bakari — Épidémiologiste.</div>
+  </footer>
+
+  <script>
+    const ORCID_ID = '0000-0002-7173-0727';
+    const yearEl = document.getElementById('year'); yearEl.textContent = new Date().getFullYear();
+    const themeBtn = document.getElementById('themeBtn');
+    const rootEl = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme){ rootEl.setAttribute('data-theme', savedTheme); } else { rootEl.setAttribute('data-theme', 'light'); }
+    themeBtn.addEventListener('click', ()=>{ const curr = rootEl.getAttribute('data-theme') || 'light'; const next = curr == 'light' ? 'dark' : 'light'; rootEl.setAttribute('data-theme', next); localStorage.setItem('theme', next); themeBtn.textContent = '🌓 Thème'; });
+    function handleSubmit(e){ e.preventDefault(); toast('Merci ! Votre message a été « envoyé » (démo).'); e.target.reset(); return false; }
+    function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed',left:'50%',bottom:'24px',transform:'translateX(-50%)', background:'linear-gradient(135deg,var(--accent),var(--accent2))', color:'#fff',padding:'12px 16px',borderRadius:'10px', boxShadow:'0 10px 30px rgba(0,0,0,.2)',zIndex:1000,fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>t.remove(),2400); }
+    const pubList = document.getElementById('pubList'); const pubCount = document.getElementById('pubCount');
+    async function loadPublications(){ const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`; try { const res = await fetch(endpoint, { headers: { 'Accept':'application/json' } }); if(!res.ok) throw new Error('HTTP '+res.status); const data = await res.json(); const items = (data['group']||[]).map(g=>{ const work = g['work-summary']?.[0]; const title = work?.title?.title?.value || 'Sans titre'; const year = work?.publication-date?.year?.value || ''; const journal = work?.journal-title?.value || ''; const url = work?.url?.value || extractDOI(g) || '#'; return {title, year, journal, url}; }).sort((a,b)=> (b.year||0) - (a.year||0)); renderPublications(items); } catch (e){ try { const res2 = await fetch('publications.json', {cache:'no-store'}); if(!res2.ok) throw new Error('HTTP '+res2.status); const items2 = await res2.json(); renderPublications(items2); } catch (e2){ pubList.innerHTML = '<div class="note">Impossible de charger les publications. Vérifiez la connexion ou le cache local.</div>'; } } }
+    function extractDOI(group){ try{ const ext = group['external-ids']['external-id']||[]; const doi = ext.find(x=> (x['external-id-type']||'').toLowerCase()==='doi'); if(doi){ const v = doi['external-id-value']; return v ? ('https://doi.org/'+v) : null; } }catch(_){return null} return null; }
+    function renderPublications(items){ if(!items || !items.length){ pubList.innerHTML = '<div class="note">Aucune publication trouvée pour l’instant.</div>'; return; } pubCount.style.display='inline-block'; pubCount.textContent = items.length + ' entrées'; pubList.innerHTML = items.map(p=> `<div class="pub"><div><strong>${escapeHtml(p.title)}</strong></div> <div>${p.journal? escapeHtml(p.journal)+' · ':''}${p.year || ''}</div> ${p.url && p.url!== '#' ? `<a href="${p.url}" target="_blank" rel="noopener">Lien</a>`:''} </div>` ).join(''); }
+    function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])); }
+    loadPublications();
+  </script>
+</body>
+</html>
