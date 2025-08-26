@@ -1,17 +1,15 @@
 [
   {
-    "org": "Centre de recherche en Epidémiologie et Santé des Populations: Villejuif",
+    "org": "Centre de recherche en Epidémiologie et Santé des Populations",
     "city": "Villejuif",
     "country": "France",
-    "role": "",
     "start": "2020-07-01",
     "end": "Actuel"
   },
   {
     "org": "Hôpitaux Universitaires Paris Nord Val de Seine",
     "city": "Paris",
-    "country": "",
-    "role": "",
+    "country": "France",
     "start": "2019-02-01",
     "end": "2020-06-30"
   }
