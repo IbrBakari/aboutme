@@ -87,7 +87,7 @@
       <div class="nav-right">
         <nav class="nav-links" id="navLinks">
           <a href="#accueil">Accueil</a>
-          <a href="#formation">Formation</a>
+          <a href="#experiences">Expériences</a><a href="#competences">Compétences</a>
           <a href="#publications">Publications</a>
           <a href="#enseignement">Enseignement</a>
           <a href="#responsabilites">Responsabilités</a>
@@ -121,24 +121,18 @@
       </figure>
     </section>
 
-    <section id="formation" class="section">
-      <h2>Formation</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <h3>Diplôme en cours</h3>
-          <ul class="clean">
-            <li><strong>Doctorant en Santé Publique — spécialité Épidémiologie</strong>, Université Paris-Saclay (depuis 2022)</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Double cursus</h3>
-          <ul class="clean">
-            <li><strong>M2 Santé Publique — Informatique Biomédicale</strong>, Université Sorbonne Paris Nord (2015)</li>
-            <li><strong>M1 Sciences & Santé — Biomolécules & Thérapies Expérimentales</strong>, Université Sorbonne Paris Nord (2014)</li>
-            <li><strong>M1 Santé Publique — Informatique Biomédicale</strong>, Université Sorbonne Paris Nord (2014)</li>
-          </ul>
-        </div>
+    
+    <section id="experiences" class="section">
+      <h2>Expériences professionnelles <span id="empCount" class="pill" title="Nombre d'entrées chargées" style="display:none"></span></h2>
+      <div class="card">
+        <div id="empList">Chargement des expériences ORCID…</div>
+        <div class="note">Synchronisé depuis ORCID (<a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener">0000-0002-7173-0727</a>). Fallback local : <code>employments.json</code>.</div>
       </div>
+    </section>
+
+
+    <section id="competences" class="section">
+      <h2>Compétences techniques</h2>
       <div class="card" style="margin-top:14px">
         <h3>Compétences techniques</h3>
         <ul class="clean">
@@ -146,6 +140,7 @@
         </ul>
       </div>
     </section>
+    
 
     <section id="publications" class="section">
       <h2>Publications <span id="pubCount" class="pill" title="Nombre d'entrées chargées" style="display:none"></span></h2>
@@ -241,5 +236,75 @@
     function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])); }
     loadPublications();
   </script>
+<script>
+
+    // ===== ORCID Employment Sync =====
+    const empList = document.getElementById('empList');
+    const empCount = document.getElementById('empCount');
+
+    async function loadEmployments(){
+      const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
+      try{
+        const res = await fetch(endpoint, {
+          headers: { 'Accept': 'application/vnd.orcid+json' },
+          cache: 'no-store'
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const data = await res.json();
+        const items = normalizeEmployments(data);
+        renderEmployments(items);
+      }catch(e){
+        try{
+          const res2 = await fetch('employments.json', {cache:'no-store'});
+          if(!res2.ok) throw new Error('HTTP '+res2.status);
+          const items2 = await res2.json();
+          renderEmployments(items2);
+        }catch(e2){
+          if(empList) empList.innerHTML = '<div class="note">Impossible de charger les expériences. Vérifiez la connexion ou le cache local.</div>';
+        }
+      }
+    }
+
+    function normalizeEmployments(data){
+      try{
+        // ORCID may return either { employments: { "employment-summary": [...] } } or flat { "employment-summary": [...] }
+        const summaries = (data?.employments?.["employment-summary"]) || data?.["employment-summary"] || [];
+        return summaries.map(s => {
+          const org = s?.organization?.name || '';
+          const city = s?.organization?.address?.city || '';
+          const country = s?.organization?.address?.country || '';
+          const role = s?.["role-title"] || '';
+          const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
+          const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
+          return { org, city, country, role, start, end };
+        }).sort((a,b)=> (b.start || '').localeCompare(a.start));
+      }catch(_){ return [] }
+    }
+
+    function joinDate(d){
+      // d = { year:{value}, month:{value}, day:{value} }
+      const y = d?.year?.value || '';
+      const m = d?.month?.value || '';
+      const dd = d?.day?.value || '';
+      return [y,m,dd].filter(Boolean).join('-');
+    }
+
+    function renderEmployments(items){
+      if(!empList) return;
+      if(!items || !items.length){
+        empList.innerHTML = '<div class="note">Aucune expérience trouvée pour l’instant.</div>';
+        return;
+      }
+      if(empCount){ empCount.style.display='inline-block'; empCount.textContent = items.length + ' entrées'; }
+      empList.innerHTML = items.map(e => {
+        const loc = [e.city, e.country].filter(Boolean).join(', ');
+        const dates = [e.start, e.end].filter(Boolean).join(' → ');
+        return `<div class="pub"><div><strong>${escapeHtml(e.role || e.org)}</strong></div>
+          <div>${escapeHtml(e.org)}${loc ? ' · '+escapeHtml(loc): ''}${dates ? ' · '+escapeHtml(dates): ''}</div></div>`;
+      }).join('');
+    }
+
+loadEmployments();
+</script>
 </body>
 </html>
