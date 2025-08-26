@@ -1,11 +1,16 @@
 name: Sync ORCID data
+
 on:
   schedule:
-    - cron: "0 5 * * 1"   # chaque lundi 05:00 UTC
+    - cron: "0 5 * * 1"   # chaque lundi à 05:00 UTC
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: sync-orcid
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -14,7 +19,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y jq
 
       - name: Resolve ORCID ID
         id: orcid
@@ -22,67 +30,82 @@ jobs:
           ORCID_ID_VAR: ${{ vars.ORCID_ID }}
           ORCID_ID_SECRET: ${{ secrets.ORCID_ID }}
         run: |
-          ORCID_ID="${ORCID_ID_VAR:-$ORCID_ID_SECRET}"
-          if [ -z "$ORCID_ID" ]; then
+          set -euo pipefail
+          ORCID_ID="${ORCID_ID_VAR:-${ORCID_ID_SECRET:-}}"
+          if [ -z "${ORCID_ID}" ]; then
             echo "Ajoutez ORCID_ID (Variable ou Secret) dans Settings > Secrets and variables > Actions."
             exit 1
           fi
-          echo "id=$ORCID_ID" >> $GITHUB_OUTPUT
+          echo "id=$ORCID_ID" >> "$GITHUB_OUTPUT"
 
-      # -------- Publications (identique à ton workflow actuel) --------
+      # -------- Publications --------
       - name: Fetch ORCID works
         run: |
+          set -euo pipefail
           ORCID_ID="${{ steps.orcid.outputs.id }}"
-          curl -s \
+          curl -fS -s \
             -H "Accept: application/vnd.orcid+json" \
             -A "github-actions-orcid-sync" \
             "https://pub.orcid.org/v3.0/${ORCID_ID}/works" \
-          | jq '[.group[] | .["work-summary"][0] as $w | {
-              title: ($w.title.title.value // "Sans titre"),
-              year:  ($w["publication-date"].year.value // ""),
-              journal: ($w["journal-title"].value // ""),
-              url: ($w.url.value // ((.["external-ids"]["external-id"] // [])
-                   | map(select(.["external-id-type"]|ascii_downcase=="doi"))
-                   | .[0]["external-id-value"]? | if . then "https://doi.org/"+. else null end))
-            }]' \
-          > publications.json
+          | jq '[
+              (.group // [])[]
+              | .["work-summary"][0] as $w
+              | {
+                  title:   ($w.title.title.value // "Sans titre"),
+                  year:    ($w["publication-date"].year.value // ""),
+                  journal: ($w["journal-title"].value // ""),
+                  url:     (
+                             $w.url.value
+                             // (
+                               ($w["external-ids"]["external-id"] // [])
+                               | map(select(.["external-id-type"] | ascii_downcase == "doi"))
+                               | .[0]["external-id-value"]?
+                               | if . then "https://doi.org/" + . else null end
+                             )
+                           )
+                }
+            ]' > publications.json
 
-      # -------- Employments (NOUVEAU) --------
+      # -------- Employments --------
       - name: Fetch ORCID employments
         run: |
+          set -euo pipefail
           ORCID_ID="${{ steps.orcid.outputs.id }}"
-          curl -s \
+          curl -fS -s \
             -H "Accept: application/vnd.orcid+json" \
             -A "github-actions-orcid-sync" \
             "https://pub.orcid.org/v3.0/${ORCID_ID}/employments" \
           | jq '
-              def datefmt(d): [d.year.value?, d.month.value?, d.day.value?] | map(select(.!=null)) | join("-");
-              def toItem:
-                { org: (.organization.name // ""),
-                  city: (.organization.address.city // ""),
-                  country: (.organization.address.country // ""),
-                  role: (.["role-title"] // .["department-name"] // ""),
-                  start: (datefmt(.["start-date"]? // {})),
-                  end: (datefmt(.["end-date"]? // {}))
-                };
+            def datefmt(d):
+              [d.year.value?, d.month.value?, d.day.value?]
+              | map(select(.!=null)) | join("-");
+            def toItem:
+              {
+                org: (.organization.name // ""),
+                city: (.organization.address.city // ""),
+                country: (.organization.address.country // ""),
+                role: (.["role-title"] // .["department-name"] // ""),
+                start: (datefmt(.["start-date"]? // {})),
+                end:   (datefmt(.["end-date"]? // {}))
+              };
 
-              if .employments? and .employments["affiliation-group"]?
-                then [ .employments["affiliation-group"][] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
-              elif ."affiliation-group"?
-                then [ ."affiliation-group"[] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
-              else
-                [ (.employments["employment-summary"] // .["employment-summary"] // [])[] | toItem ]
-              end
-            ' \
-          > employments.json
+            if .employments? and .employments["affiliation-group"]?
+              then [ .employments["affiliation-group"][] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
+            elif ."affiliation-group"?
+              then [ ."affiliation-group"[] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
+            else
+              [ (.employments["employment-summary"] // .["employment-summary"] // [])[] | toItem ]
+            end
+          ' > employments.json
 
-      # -------- Commit si l'un des deux fichiers a changé --------
+      # -------- Commit si changement --------
       - name: Commit files
         run: |
-          if ! git diff --quiet -- publications.json employments.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add publications.json employments.json
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publications.json employments.json
+          if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Update publications.json & employments.json from ORCID"
             git push
           else
