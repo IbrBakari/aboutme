@@ -266,9 +266,14 @@
     }
   }
 
-  function normalizeEmployments(data){
-    // ORCID renvoie généralement data.employments["employment-summary"]
-    const summaries = (data?.employments?.["employment-summary"]) || data?.["employment-summary"] || [];
+    function normalizeEmployments(data){
+    // Couvre les 3 structures possibles
+    const summaries =
+      data?.employments?.["employment-summary"] ||
+      data?.["employment-summary"] ||
+      data?.["activities-summary"]?.employments?.["employment-summary"] ||
+      [];
+
     return summaries.map(s => {
       const org = s?.organization?.name || '';
       const city = s?.organization?.address?.city || '';
@@ -277,9 +282,15 @@
       const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
       const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
       return { org, city, country, role, start, end };
-    });
+    }).filter(e => e.org || e.role); // filtre les entrées vides
   }
 
+  function joinDate(d){
+    const y = d?.year?.value || '';
+    const m = d?.month?.value || '';
+    const dd = d?.day?.value || '';
+    return [y,m,dd].filter(Boolean).join('-');
+  }
   function joinDate(d){
     const y = d?.year?.value || '';
     const m = d?.month?.value || '';
