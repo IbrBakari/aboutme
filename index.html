@@ -246,10 +246,11 @@
   async function loadEmployments(){
     try{
       const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
-      const res = await fetch(endpoint, {
-        headers: { 'Accept': 'application/vnd.orcid+json' },
-        cache: 'no-store'
-      });
+    const res = await fetch(endpoint, {
+    headers: { 'Accept': 'application/vnd.orcid+json' }, // <- indispensable
+    cache: 'no-store'
+});
+
       if(!res.ok) throw new Error('HTTP '+res.status);
       const data = await res.json();
       const items = normalizeEmployments(data);
@@ -268,22 +269,56 @@
   }
 
     function normalizeEmployments(data){
-    // Couvre les 3 structures possibles
-    const summaries =
-      data?.employments?.["employment-summary"] ||
-      data?.["employment-summary"] ||
-      data?.["activities-summary"]?.employments?.["employment-summary"] ||
+    // On couvre plusieurs structures JSON possibles
+    const groups =
+      data?.employments?.["affiliation-group"] ||
+      data?.["affiliation-group"] ||
+      data?.["activities-summary"]?.employments?.["affiliation-group"] ||
       [];
 
-    return summaries.map(s => {
+    // Aplanir tous les employment-summary de chaque groupe
+    const summaries = groups.flatMap(g =>
+      g?.["employment-summary"]
+        ? (Array.isArray(g["employment-summary"]) ? g["employment-summary"] : [g["employment-summary"]])
+        : []
+    );
+
+    // Si pour une raison quelconque summaries est vide, tenter les chemins "plats"
+    const fallbacks = (
+      data?.employments?.["employment-summary"] ||
+      data?.["employment-summary"] ||
+      []
+    );
+    const all = summaries.length ? summaries : fallbacks;
+
+    return all.map(s => {
       const org = s?.organization?.name || '';
       const city = s?.organization?.address?.city || '';
       const country = s?.organization?.address?.country || '';
-      const role = s?.["role-title"] || '';
+      const role =
+        s?.["role-title"] ||
+        s?.["department-name"] || // <-- fallback vu dans ton XML
+        '';
       const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
-      const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
+      const end   = s?.["end-date"]   ? joinDate(s["end-date"])   : '';
       return { org, city, country, role, start, end };
-    }).filter(e => e.org || e.role); // filtre les entrées vides
+    })
+    // Trier du plus récent au plus ancien (par date de début si dispo)
+    .sort((a,b)=> (b.start || '').localeCompare(a.start || ''))
+    // Filtrer les coquilles vides
+    .filter(e => e.org || e.role);
+  }
+
+  if (!items || items.length === 0) {
+  return loadEmploymentsFallback(); // fetch('employments.json')
+}
+
+
+  function joinDate(d){
+    const y = d?.year?.value || '';
+    const m = d?.month?.value || '';
+    const dd = d?.day?.value || '';
+    return [y,m,dd].filter(Boolean).join('-');
   }
 
   function joinDate(d){
