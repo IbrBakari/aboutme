@@ -239,9 +239,6 @@
   </script>
 
 <script>
-
-  const ORCID_ID = "0000-0002-7173-0727"; // on garde la même constante que pour les publications
-
   const empList = document.getElementById('empList');
   const empCount = document.getElementById('empCount');
 
@@ -264,25 +261,23 @@
         const items2 = await res2.json();
         renderEmployments(items2);
       }catch(e2){
-        if(empList) empList.innerHTML = '<div class="note">Impossible de charger les expériences (ORCID et fallback indisponibles).</div>';
+        if(empList) empList.innerHTML = '<div class="note">Impossible de charger les expériences.</div>';
       }
     }
   }
 
   function normalizeEmployments(data){
-    try{
-      // ORCID renvoie généralement employments["employment-summary"]
-      const summaries = (data?.employments?.["employment-summary"]) || data?.["employment-summary"] || [];
-      return summaries.map(s => {
-        const org = s?.organization?.name || '';
-        const city = s?.organization?.address?.city || '';
-        const country = s?.organization?.address?.country || '';
-        const role = s?.["role-title"] || '';
-        const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
-        const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
-        return { org, city, country, role, start, end };
-      }).sort((a,b)=> (b.start || '').localeCompare(a.start || ''));
-    }catch(_){ return [] }
+    // ORCID renvoie généralement data.employments["employment-summary"]
+    const summaries = (data?.employments?.["employment-summary"]) || data?.["employment-summary"] || [];
+    return summaries.map(s => {
+      const org = s?.organization?.name || '';
+      const city = s?.organization?.address?.city || '';
+      const country = s?.organization?.address?.country || '';
+      const role = s?.["role-title"] || '';
+      const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
+      const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
+      return { org, city, country, role, start, end };
+    });
   }
 
   function joinDate(d){
@@ -297,9 +292,8 @@
   }
 
   function renderEmployments(items){
-    if(!empList) return;
     if(!items || !items.length){
-      empList.innerHTML = '<div class="note">Aucune expérience trouvée pour l’instant.</div>';
+      empList.innerHTML = '<div class="note">Aucune expérience trouvée.</div>';
       return;
     }
     if(empCount){ empCount.style.display='inline-block'; empCount.textContent = items.length + ' entrées'; }
@@ -311,11 +305,10 @@
     }).join('');
   }
 
-  // Lancer au chargement de la page
-  (document.readyState === 'loading')
-    ? document.addEventListener('DOMContentLoaded', loadEmployments)
-    : loadEmployments();
+  // Lancer comme pour les publications
+  loadEmployments();
 </script>
+
 
 </body>
 </html>
