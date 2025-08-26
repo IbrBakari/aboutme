@@ -1,4 +1,4 @@
-name: Sync ORCID publications
+name: Sync ORCID data
 on:
   schedule:
     - cron: "0 5 * * 1"   # chaque lundi 05:00 UTC
@@ -16,7 +16,8 @@ jobs:
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
-      - name: Fetch ORCID works
+      - name: Resolve ORCID ID
+        id: orcid
         env:
           ORCID_ID_VAR: ${{ vars.ORCID_ID }}
           ORCID_ID_SECRET: ${{ secrets.ORCID_ID }}
@@ -26,7 +27,12 @@ jobs:
             echo "Ajoutez ORCID_ID (Variable ou Secret) dans Settings > Secrets and variables > Actions."
             exit 1
           fi
+          echo "id=$ORCID_ID" >> $GITHUB_OUTPUT
 
+      # -------- Publications (identique à ton workflow actuel) --------
+      - name: Fetch ORCID works
+        run: |
+          ORCID_ID="${{ steps.orcid.outputs.id }}"
           curl -s \
             -H "Accept: application/vnd.orcid+json" \
             -A "github-actions-orcid-sync" \
@@ -41,13 +47,43 @@ jobs:
             }]' \
           > publications.json
 
-      - name: Commit publications.json
+      # -------- Employments (NOUVEAU) --------
+      - name: Fetch ORCID employments
         run: |
-          if ! git diff --quiet -- publications.json; then
+          ORCID_ID="${{ steps.orcid.outputs.id }}"
+          curl -s \
+            -H "Accept: application/vnd.orcid+json" \
+            -A "github-actions-orcid-sync" \
+            "https://pub.orcid.org/v3.0/${ORCID_ID}/employments" \
+          | jq '
+              def datefmt(d): [d.year.value?, d.month.value?, d.day.value?] | map(select(.!=null)) | join("-");
+              def toItem:
+                { org: (.organization.name // ""),
+                  city: (.organization.address.city // ""),
+                  country: (.organization.address.country // ""),
+                  role: (.["role-title"] // .["department-name"] // ""),
+                  start: (datefmt(.["start-date"]? // {})),
+                  end: (datefmt(.["end-date"]? // {}))
+                };
+
+              if .employments? and .employments["affiliation-group"]?
+                then [ .employments["affiliation-group"][] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
+              elif ."affiliation-group"?
+                then [ ."affiliation-group"[] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
+              else
+                [ (.employments["employment-summary"] // .["employment-summary"] // [])[] | toItem ]
+              end
+            ' \
+          > employments.json
+
+      # -------- Commit si l'un des deux fichiers a changé --------
+      - name: Commit files
+        run: |
+          if ! git diff --quiet -- publications.json employments.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add publications.json
-            git commit -m "Update publications.json from ORCID"
+            git add publications.json employments.json
+            git commit -m "Update publications.json & employments.json from ORCID"
             git push
           else
             echo "No changes."
