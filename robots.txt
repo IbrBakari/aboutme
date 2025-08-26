@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ibrbakari.github.io/aboutme/sitemap.xml
