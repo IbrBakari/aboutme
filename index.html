@@ -33,9 +33,11 @@
     .nav-links a{padding:8px 10px;border-radius:8px}
     .nav-links a:hover{background:#eef2ff}
     [data-theme="dark"] .nav-links a:hover{background:#172247}
-    .menu-btn,.theme-btn{background:#eef2ff;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px}
-    .theme-btn{display:inline-flex;align-items:center;gap:8px}
-    [data-theme="dark"] .menu-btn,[data-theme="dark"] .theme-btn{background:#172247}
+    .theme-btn{background:#eef2ff;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px}
+    [data-theme="dark"] .theme-btn{background:#172247}
+    .hide-sm{display:inline}
+    @media (max-width: 900px){.hide-sm{display:none}}
+
     .hero{padding:56px 0 28px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
     .title{font-size:36px;line-height:1.15;margin:0 0 8px}
     .subtitle{color:var(--muted);margin:0 0 16px}
@@ -49,7 +51,7 @@
     .footer{padding:28px 0;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
     h2{margin:0 0 12px}
     ul.clean{margin:0;padding-left:18px}
-    input,textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#fff;color:#var(--text);outline:none}
+    input,textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#fff;color: var(--text);outline:none}
     [data-theme="dark"] input,[data-theme="dark"] textarea{background:#0d1533;color:#e9eef7}
     input:focus,textarea:focus{border-color:#9db7ff;box-shadow:0 0 0 6px var(--ring)}
     .pub{padding:10px;border-left:3px solid #c9d6ff}
@@ -62,38 +64,39 @@
     [data-theme="dark"] .portrait img{background:#0d152e}
     @media (max-width: 900px){.hero{grid-template-columns:1fr}.nav-links{display:none}.title{font-size:28px}}
   </style>
-  <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Person",
-  "name":"Ibrahim Bakari",
-  "jobTitle":"Doctorant en Santé Publique — Épidémiologie",
-  "affiliation":{"@type":"Organization","name":"Université Paris-Saclay"},
-  "image":"https://ibrbakari.github.io/aboutme/assets/img/portrait.jpg",
-  "sameAs":[
-    "https://orcid.org/0000-0002-7173-0727",
-    "https://www.linkedin.com/in/ibrbakari/",
-    "https://x.com/IbrBakari",
-    "https://www.researchgate.net/profile/Bakari-Ibrahim-2"
-  ]
-}
-</script>
 
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Ibrahim Bakari",
+    "jobTitle":"Doctorant en Santé Publique — Épidémiologie",
+    "affiliation":{"@type":"Organization","name":"Université Paris-Saclay"},
+    "image":"https://ibrbakari.github.io/aboutme/assets/img/portrait.JPG",
+    "sameAs":[
+      "https://orcid.org/0000-0002-7173-0727",
+      "https://www.linkedin.com/in/ibrbakari/",
+      "https://x.com/IbrBakari",
+      "https://www.researchgate.net/profile/Bakari-Ibrahim-2"
+    ]
+  }
+  </script>
 </head>
 <body>
   <header>
     <div class="container nav">
-      <div class="brand"><div class="logo" aria-hidden="true"></div> Ibrahim Bakari</div>
+      <a class="brand" href="#accueil" aria-label="Aller à l’accueil"><div class="logo" aria-hidden="true"></div> Ibrahim Bakari</a>
       <div class="nav-right">
         <nav class="nav-links" id="navLinks">
           <a href="#accueil">Accueil</a>
-          <a href="#experiences">Expériences</a><a href="#competences">Compétences</a>
+          <a href="#experiences">Expériences</a>
+          <a href="#competences">Compétences</a>
           <a href="#publications">Publications</a>
           <a href="#enseignement">Enseignement</a>
           <a href="#responsabilites">Responsabilités</a>
           <a href="#contact">Contact</a>
         </nav>
-        <button class="theme-btn" id="themeBtn" aria-label="Basculer clair/sombre">🌓 <span class="hide-sm">Thème</span></button>
+        <button class="theme-btn" id="themeBtn" aria-label="Basculer clair/sombre" aria-pressed="false">🌓 <span class="hide-sm">Thème</span></button>
       </div>
     </div>
   </header>
@@ -107,47 +110,41 @@
         </h1>
         <p class="subtitle">Expositions professionnelles et santé respiratoire. Analyses statistiques et pédagogie des outils R/SAS.</p>
         <div class="grid" style="grid-template-columns:1fr">
-              <div class="card">
-                <strong>Affiliation</strong><br>
-                <span class="muted">
-                  Université Paris-Saclay, UVSQ, Univ. Paris-Sud, Inserm, Equipe d'Epidémiologie Respiratoire Intégrative, CESP, 94807, Villejuif, France
-                </span>
-              </div>
-            </div>
-
+          <div class="card">
+            <strong>Affiliation</strong><br>
+            <span class="muted">
+              Université Paris-Saclay, UVSQ, Univ. Paris-Sud, Inserm, Equipe d'Epidémiologie Respiratoire Intégrative, CESP, 94807, Villejuif, France
+            </span>
+          </div>
+        </div>
       </div>
       <figure class="card portrait" aria-label="Photographie">
-        <img src="assets/img/portrait.JPG" alt="Photographie d’Ibrahim Bakari" loading="lazy" />
+        <img src="assets/img/portrait.JPG" alt="Photographie d’Ibrahim Bakari" loading="lazy" decoding="async" />
       </figure>
     </section>
 
-    
-<section id="experiences" class="section">
-  <h2>Expériences professionnelles <span id="empCount" class="pill" style="display:none"></span></h2>
-  <div class="card">
-    <div id="empList">Chargement des expériences ORCID…</div>
-    <div class="note">Synchronisé depuis ORCID (<a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener">0000-0002-7173-0727</a>). Fallback : <code>employments.json</code>.</div>
-  </div>
-</section>
-
-
+    <section id="experiences" class="section">
+      <h2>Expériences professionnelles <span id="empCount" class="pill" style="display:none"></span></h2>
+      <div class="card">
+        <div id="empList">Chargement des expériences ORCID…</div>
+        <div class="note">Synchronisé depuis ORCID (<a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener noreferrer">0000-0002-7173-0727</a>). Fallback : <code>employments.json</code>.</div>
+      </div>
+    </section>
 
     <section id="competences" class="section">
       <h2>Compétences techniques</h2>
       <div class="card" style="margin-top:14px">
-        <h3>Compétences techniques</h3>
         <ul class="clean">
           <li>R, SAS, Perl, HTML/PHP, MySQL, Linux</li>
         </ul>
       </div>
     </section>
-    
 
     <section id="publications" class="section">
       <h2>Publications <span id="pubCount" class="pill" title="Nombre d'entrées chargées" style="display:none"></span></h2>
       <div class="card">
         <div id="pubList">Chargement des publications ORCID…</div>
-        <div class="note">Synchronisé depuis ORCID (<a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener">0000-0002-7173-0727</a>). Fallback local : <code>publications.json</code>.</div>
+        <div class="note">Synchronisé depuis ORCID (<a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener noreferrer">0000-0002-7173-0727</a>). Fallback local : <code>publications.json</code>.</div>
       </div>
     </section>
 
@@ -176,11 +173,11 @@
       <div class="grid cols-2">
         <div class="card">
           <h3>Confédération des Jeunes Chercheurs (CJC)</h3>
-          <p>Président (2023–2025). <a href="https://cjc.jeunes-chercheurs.org/" target="_blank" rel="noopener">Site de la CJC</a></p>
+          <p>Président (2023–2025). <a href="https://cjc.jeunes-chercheurs.org/" target="_blank" rel="noopener noreferrer">Site de la CJC</a></p>
         </div>
         <div class="card">
           <h3>DocSP — EDSP</h3>
-          <p>Vice-président (2023–2025). <a href="https://annuaire-entreprises.data.gouv.fr/entreprise/doc-sp-789490703" target="_blank" rel="noopener">Fiche annuaire</a></p>
+          <p>Vice-président (2023–2025). <a href="https://annuaire-entreprises.data.gouv.fr/entreprise/doc-sp-789490703" target="_blank" rel="noopener noreferrer">Fiche annuaire</a></p>
         </div>
       </div>
     </section>
@@ -191,22 +188,23 @@
         <div class="card">
           <h3>Me suivre</h3>
           <ul class="clean">
-            <li><strong>ORCID</strong> : <a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener">0000-0002-7173-0727</a></li>
-            <li><strong>ResearchGate</strong> : <a href="https://www.researchgate.net/profile/Bakari-Ibrahim-2" target="_blank" rel="noopener">Profil</a></li>
-            <li><strong>LinkedIn</strong> : <a href="https://www.linkedin.com/in/ibrbakari/" target="_blank" rel="noopener">@ibrbakari</a></li>
-            <li><strong>X (Twitter)</strong> : <a href="https://x.com/IbrBakari" target="_blank" rel="noopener">@IbrBakari</a></li>
+            <li><strong>ORCID</strong> : <a href="https://orcid.org/0000-0002-7173-0727" target="_blank" rel="noopener noreferrer">0000-0002-7173-0727</a></li>
+            <li><strong>ResearchGate</strong> : <a href="https://www.researchgate.net/profile/Bakari-Ibrahim-2" target="_blank" rel="noopener noreferrer">Profil</a></li>
+            <li><strong>LinkedIn</strong> : <a href="https://www.linkedin.com/in/ibrbakari/" target="_blank" rel="noopener noreferrer">@ibrbakari</a></li>
+            <li><strong>X (Twitter)</strong> : <a href="https://x.com/IbrBakari" target="_blank" rel="noopener noreferrer">@IbrBakari</a></li>
           </ul>
         </div>
         <div class="card">
           <h3>Me contacter</h3>
-          <form action="https://formspree.io/f/XXXXX" method="POST">
-  <input type="email" name="email" required placeholder="you@example.com" />
-  <textarea name="message" rows="4" required placeholder="Votre message…"></textarea>
-  <!-- anti-spam honeypot -->
-  <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-  <button type="submit" ...>Envoyer</button>
-</form>
-
+          <!-- Mode démo : on relie le submit au JS -->
+          <form onsubmit="handleSubmit(event)">
+            <input type="email" name="email" required placeholder="you@example.com" />
+            <textarea name="message" rows="4" required placeholder="Votre message…"></textarea>
+            <!-- anti-spam honeypot -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+            <button type="submit">Envoyer</button>
+          </form>
+          <!-- Si tu veux l’envoi réel, mets action="https://formspree.io/f/TON_ID" et supprime onsubmit -->
         </div>
       </div>
     </section>
@@ -218,112 +216,200 @@
 
   <script>
     const ORCID_ID = '0000-0002-7173-0727';
-    const yearEl = document.getElementById('year'); yearEl.textContent = new Date().getFullYear();
+
+    // Année footer
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    // Thème
     const themeBtn = document.getElementById('themeBtn');
     const rootEl = document.documentElement;
-    const savedTheme = localStorage.getItem('theme');
-    if(savedTheme){ rootEl.setAttribute('data-theme', savedTheme); } else { rootEl.setAttribute('data-theme', 'light'); }
-    themeBtn.addEventListener('click', ()=>{ const curr = rootEl.getAttribute('data-theme') || 'light'; const next = curr == 'light' ? 'dark' : 'light'; rootEl.setAttribute('data-theme', next); localStorage.setItem('theme', next); themeBtn.textContent = '🌓 Thème'; });
-    function handleSubmit(e){ e.preventDefault(); toast('Merci ! Votre message a été « envoyé » (démo).'); e.target.reset(); return false; }
-    function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed',left:'50%',bottom:'24px',transform:'translateX(-50%)', background:'linear-gradient(135deg,var(--accent),var(--accent2))', color:'#fff',padding:'12px 16px',borderRadius:'10px', boxShadow:'0 10px 30px rgba(0,0,0,.2)',zIndex:1000,fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>t.remove(),2400); }
-    const pubList = document.getElementById('pubList'); const pubCount = document.getElementById('pubCount');
-    async function loadPublications(){ const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`; try { const res = await fetch(endpoint, {
-  headers: { 'Accept': 'application/vnd.orcid+json' },
-  cache: 'no-store' // optionnel, utile pour les tests
-});
- if(!res.ok) throw new Error('HTTP '+res.status); const data = await res.json(); const items = (data['group']||[]).map(g=>{ const work = g['work-summary']?.[0]; const title = work?.title?.title?.value || 'Sans titre'; const year = work?.publication-date?.year?.value || ''; const journal = work?.journal-title?.value || ''; const url = work?.url?.value || extractDOI(g) || '#'; return {title, year, journal, url}; }).sort((a,b)=> (b.year||0) - (a.year||0)); renderPublications(items); } catch (e){ try { const res2 = await fetch('publications.json', {cache:'no-store'}); if(!res2.ok) throw new Error('HTTP '+res2.status); const items2 = await res2.json(); renderPublications(items2); } catch (e2){ pubList.innerHTML = '<div class="note">Impossible de charger les publications. Vérifiez la connexion ou le cache local.</div>'; } } }
-    function extractDOI(group){ try{ const ext = group['external-ids']['external-id']||[]; const doi = ext.find(x=> (x['external-id-type']||'').toLowerCase()==='doi'); if(doi){ const v = doi['external-id-value']; return v ? ('https://doi.org/'+v) : null; } }catch(_){return null} return null; }
-    function renderPublications(items){ if(!items || !items.length){ pubList.innerHTML = '<div class="note">Aucune publication trouvée pour l’instant.</div>'; return; } pubCount.style.display='inline-block'; pubCount.textContent = items.length + ' entrées'; pubList.innerHTML = items.map(p=> `<div class="pub"><div><strong>${escapeHtml(p.title)}</strong></div> <div>${p.journal? escapeHtml(p.journal)+' · ':''}${p.year || ''}</div> ${p.url && p.url!== '#' ? `<a href="${p.url}" target="_blank" rel="noopener">Lien</a>`:''} </div>` ).join(''); }
-    function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])); }
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    rootEl.setAttribute('data-theme', savedTheme);
+    themeBtn.setAttribute('aria-pressed', savedTheme === 'dark');
+
+    themeBtn.addEventListener('click', ()=>{
+      const curr = rootEl.getAttribute('data-theme') || 'light';
+      const next = (curr === 'light') ? 'dark' : 'light';
+      rootEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.setAttribute('aria-pressed', next === 'dark');
+      // On ne modifie pas le contenu du bouton pour garder <span class="hide-sm">
+    });
+
+    // Toast + submit démo
+    function handleSubmit(e){
+      e.preventDefault();
+      toast('Merci ! Votre message a été envoyé (démo).');
+      e.target.reset();
+      return false;
+    }
+    function toast(msg){
+      const t=document.createElement('div');
+      t.textContent=msg;
+      Object.assign(t.style,{
+        position:'fixed',left:'50%',bottom:'24px',transform:'translateX(-50%)',
+        background:'linear-gradient(135deg,var(--accent),var(--accent2))', color:'#fff',
+        padding:'12px 16px',borderRadius:'10px', boxShadow:'0 10px 30px rgba(0,0,0,.2)',
+        zIndex:1000,fontWeight:700
+      });
+      document.body.appendChild(t); setTimeout(()=>t.remove(),2400);
+    }
+
+    // Publications
+    const pubList = document.getElementById('pubList');
+    const pubCount = document.getElementById('pubCount');
+
+    async function loadPublications(){
+      const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`;
+      try{
+        const res = await fetch(endpoint, {
+          headers: { 'Accept': 'application/vnd.orcid+json' },
+          cache: 'no-store'
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const data = await res.json();
+
+        const items = (data.group||[])
+          .map(g=>{
+            const work = g['work-summary']?.[0];
+            const title = work?.title?.title?.value || 'Sans titre';
+            const yearStr = work?.['publication-date']?.year?.value || '';
+            const year = Number.parseInt(yearStr, 10) || null;
+            const journal = work?.['journal-title']?.value || '';
+            const url = work?.url?.value || extractDOIFromWork(work) || '#';
+            return { title, year, journal, url };
+          })
+          .filter(p => p.title)
+          .sort((a,b)=>{
+            const A = (typeof a.year === 'number') ? a.year : -Infinity;
+            const B = (typeof b.year === 'number') ? b.year : -Infinity;
+            return B - A;
+          });
+
+        renderPublications(items);
+      }catch(e){
+        // Fallback local
+        try{
+          const res2 = await fetch('publications.json', {cache:'no-store'});
+          if(!res2.ok) throw new Error('HTTP '+res2.status);
+          const items2 = await res2.json();
+          renderPublications(items2);
+        }catch(e2){
+          pubList.innerHTML = '<div class="note">Impossible de charger les publications. Vérifiez la connexion ou le cache local.</div>';
+        }
+      }
+    }
+
+    function extractDOIFromWork(work){
+      try{
+        const ext = work?.['external-ids']?.['external-id'] || [];
+        const doi = ext.find(x => (x?.['external-id-type']||'').toLowerCase() === 'doi');
+        const v = doi?.['external-id-value'];
+        return v ? ('https://doi.org/'+v) : null;
+      }catch(_){ return null; }
+    }
+
+    function renderPublications(items){
+      if(!items || !items.length){
+        pubList.innerHTML = '<div class="note">Aucune publication trouvée pour l’instant.</div>';
+        return;
+      }
+      pubCount.style.display='inline-block';
+      pubCount.textContent = items.length + ' entrées';
+      pubList.innerHTML = items.map(p =>
+        `<div class="pub">
+           <div><strong>${escapeHtml(p.title)}</strong></div>
+           <div>${p.journal ? escapeHtml(p.journal)+' · ' : ''}${p.year ?? ''}</div>
+           ${p.url && p.url !== '#' ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer">Lien</a>` : ''}
+         </div>`
+      ).join('');
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>\"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
+    }
+
     loadPublications();
   </script>
 
-<script>
-  const empList = document.getElementById('empList');
-  const empCount = document.getElementById('empCount');
+  <script>
+    // EMPLOYMENTS
+    const empList = document.getElementById('empList');
+    const empCount = document.getElementById('empCount');
 
-  async function loadEmployments(){
-    // 1) Essayer l’API ORCID
-    try{
-      const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
-      const res = await fetch(endpoint, {
-        headers: { 'Accept': 'application/vnd.orcid+json' },
-        cache: 'no-store'
-      });
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const data = await res.json();
-      const items = normalizeEmployments(data);
-
-      // 2) Si ORCID est vide → essayer automatiquement le fallback local
-      if(!items || items.length === 0){
+    async function loadEmployments(){
+      try{
+        const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
+        const res = await fetch(endpoint, {
+          headers: { 'Accept': 'application/vnd.orcid+json' },
+          cache: 'no-store'
+        });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const data = await res.json();
+        const items = normalizeEmployments(data);
+        if(!items || items.length === 0) return loadEmploymentsFallback();
+        renderEmployments(items);
+      }catch(e){
         return loadEmploymentsFallback();
       }
-
-      renderEmployments(items);
-    }catch(e){
-      // 3) Si appel ORCID en erreur → réessayer via fallback
-      return loadEmploymentsFallback();
     }
-  }
 
-  async function loadEmploymentsFallback(){
-    try{
-      const res2 = await fetch('employments.json', {cache:'no-store'});
-      if(!res2.ok) throw new Error('HTTP '+res2.status);
-      const items2 = await res2.json();
-      renderEmployments(items2);
-    }catch(e2){
-      if(empList) empList.innerHTML =
-        '<div class="note">Impossible de charger les expériences (ORCID vide et fallback indisponible).</div>';
+    async function loadEmploymentsFallback(){
+      try{
+        const res2 = await fetch('employments.json', {cache:'no-store'});
+        if(!res2.ok) throw new Error('HTTP '+res2.status);
+        const items2 = await res2.json();
+        renderEmployments(items2);
+      }catch(e2){
+        if(empList) empList.innerHTML =
+          '<div class="note">Impossible de charger les expériences (ORCID vide et fallback indisponible).</div>';
+      }
     }
-  }
 
-  function normalizeEmployments(data){
-    // couvre plusieurs structures possibles côté ORCID
-    const summaries =
-      data?.employments?.["employment-summary"] ||
-      data?.["employment-summary"] ||
-      data?.["activities-summary"]?.employments?.["employment-summary"] ||
-      [];
-    return summaries.map(s => {
-      const org = s?.organization?.name || '';
-      const city = s?.organization?.address?.city || '';
-      const country = s?.organization?.address?.country || '';
-      const role = s?.["role-title"] || '';
-      const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
-      const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
-      return { org, city, country, role, start, end };
-    }).filter(e => e.org || e.role);
-  }
-
-  function joinDate(d){
-    const y = d?.year?.value || '';
-    const m = d?.month?.value || '';
-    const dd = d?.day?.value || '';
-    return [y,m,dd].filter(Boolean).join('-');
-  }
-
-  function escapeHtml(str){
-    return String(str || '').replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
-  }
-
-  function renderEmployments(items){
-    if(!items || !items.length){
-      empList.innerHTML = '<div class="note">Aucune expérience trouvée.</div>';
-      return;
+    function normalizeEmployments(data){
+      const summaries =
+        data?.employments?.["employment-summary"] ||
+        data?.["employment-summary"] ||
+        data?.["activities-summary"]?.employments?.["employment-summary"] ||
+        [];
+      return summaries.map(s => {
+        const org = s?.organization?.name || '';
+        const city = s?.organization?.address?.city || '';
+        const country = s?.organization?.address?.country || '';
+        const role = s?.["role-title"] || s?.["department-name"] || '';
+        const start = s?.["start-date"] ? joinDate(s["start-date"]) : '';
+        const end = s?.["end-date"] ? joinDate(s["end-date"]) : '';
+        return { org, city, country, role, start, end };
+      }).filter(e => e.org || e.role);
     }
-    if(empCount){ empCount.style.display='inline-block'; empCount.textContent = items.length + ' entrées'; }
-    empList.innerHTML = items.map(e => {
-      const loc = [e.city, e.country].filter(Boolean).join(', ');
-      const dates = [e.start, e.end].filter(Boolean).join(' → ');
-      return `<div class="pub"><div><strong>${escapeHtml(e.role || e.org)}</strong></div>
-        <div>${escapeHtml(e.org)}${loc ? ' · '+escapeHtml(loc): ''}${dates ? ' · '+escapeHtml(dates): ''}</div></div>`;
-    }).join('');
-  }
 
-  // N’oublie pas d’appeler la fonction :
-  loadEmployments();
-</script>
+    function joinDate(d){
+      const y = d?.year?.value || '';
+      const m = d?.month?.value || '';
+      const dd = d?.day?.value || '';
+      return [y,m,dd].filter(Boolean).join('-');
+    }
 
+    function escapeHtml(str){
+      return String(str || '').replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+    }
+
+    function renderEmployments(items){
+      if(!items || !items.length){
+        empList.innerHTML = '<div class="note">Aucune expérience trouvée.</div>';
+        return;
+      }
+      if(empCount){ empCount.style.display='inline-block'; empCount.textContent = items.length + ' entrées'; }
+      empList.innerHTML = items.map(e => {
+        const loc = [e.city, e.country].filter(Boolean).join(', ');
+        const dates = [e.start, e.end].filter(Boolean).join(' → ');
+        return `<div class="pub"><div><strong>${escapeHtml(e.role || e.org)}</strong></div>
+          <div>${escapeHtml(e.org)}${loc ? ' · '+escapeHtml(loc): ''}${dates ? ' · '+escapeHtml(dates): ''}</div></div>`;
+      }).join('');
+    }
+
+    loadEmployments();
+  </script>
 </body>
 </html>
