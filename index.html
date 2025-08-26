@@ -247,7 +247,7 @@
 
   async function loadEmployments(){
     try{
-      const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employment`;
+      const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
       const res = await fetch(endpoint, {
         headers: { 'Accept': 'application/vnd.orcid+json' },
         cache: 'no-store'
