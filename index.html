@@ -236,10 +236,8 @@
     function renderPublications(items){ if(!items || !items.length){ pubList.innerHTML = '<div class="note">Aucune publication trouvée pour l’instant.</div>'; return; } pubCount.style.display='inline-block'; pubCount.textContent = items.length + ' entrées'; pubList.innerHTML = items.map(p=> `<div class="pub"><div><strong>${escapeHtml(p.title)}</strong></div> <div>${p.journal? escapeHtml(p.journal)+' · ':''}${p.year || ''}</div> ${p.url && p.url!== '#' ? `<a href="${p.url}" target="_blank" rel="noopener">Lien</a>`:''} </div>` ).join(''); }
     function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m])); }
     loadPublications();
-  </script>
 
-<script>
-  const ORCID_ID = '0000-0002-7173-0727';
+  
   const empList = document.getElementById('empList');
   const empCount = document.getElementById('empCount');
 
