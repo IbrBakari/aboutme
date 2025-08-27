@@ -269,15 +269,15 @@
         </div>
         <div class="card">
           <h3>Me contacter</h3>
-          <!-- Mode démo : on relie le submit au JS -->
-          <form onsubmit="handleSubmit(event)">
+          <!-- Mode réel : on relie le submit au JS -->
+          <form id="contactForm" action="https://formspree.io/f/xandnyol" method="POST">
             <input type="email" name="email" required placeholder="you@example.com" />
             <textarea name="message" rows="4" required placeholder="Votre message…"></textarea>
-            <!-- anti-spam honeypot -->
+             <!-- anti-spam honeypot -->
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
             <button type="submit">Envoyer</button>
           </form>
-          <!-- Pour l’envoi réel, on metra action="https://formspree.io/f/TON_ID" et supprime onsubmit -->
+          
         </div>
       </div>
     </section>
