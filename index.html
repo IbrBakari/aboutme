@@ -70,71 +70,126 @@
   }
   </script>
 
-  <!-- Conserver les styles actuels  -->
   <style>
+    /* -------------------------------
+       Base, thèmes & typographie
+    --------------------------------*/
     :root{
       --bg:#f6f8fb;--surface:#ffffff;--text:#0b1020;--muted:#5b6270;
-      --accent:#2f6ee5;--accent2:#6b7cff;--link:#1946c7;--ring:rgba(47,110,229,.16);--border:#e5e9f2
+      --accent:#2f6ee5;--accent2:#6b7cff;--link:#1946c7;--ring:rgba(47,110,229,.16);--border:#e5e9f2;
+      --header-h:64px;
     }
     [data-theme="dark"]{
       --bg:#0e1423;--surface:#111a2f;--muted:#9aa5b1;--text:#e9eef7;--accent:#4da3ff;--accent2:#6b7cff;--ring:rgba(77,163,255,.22);--link:#78aef6;--border:#1b2642
     }
-    *{box-sizing:border-box} html,body{margin:0;height:100%}
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
     body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1000px 700px at 90% -10%,#eef3ff,transparent),radial-gradient(900px 650px at -10% 10%,#f0f3f9,transparent),var(--bg);color:var(--text);line-height:1.6}
     [data-theme="dark"] body{background:radial-gradient(1200px 800px at 80% -10%,#152041,transparent),radial-gradient(900px 700px at -10% 10%,#121a34,transparent),var(--bg)}
-    a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
-    .container{width:min(1100px,92%);margin:0 auto}
-    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.7);backdrop-filter:saturate(130%) blur(6px);border-bottom:1px solid var(--border)}
+
+    /* Typo fluide */
+    .title{font-size:clamp(24px, 4.2vw + 8px, 36px);line-height:1.15;margin:0 0 8px}
+    h2{margin:0 0 12px;font-size:clamp(18px,2.6vw,24px)}
+
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Conteneur & espacements */
+    .container{width:min(1100px,94%);margin:0 auto;padding:0 0 env(safe-area-inset-bottom)}
+    .section{padding:28px 0}
+
+    /* Header sticky constant height */
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.72);backdrop-filter:saturate(130%) blur(6px);border-bottom:1px solid var(--border);height:var(--header-h)}
     [data-theme="dark"] header{background:rgba(14,20,35,.75)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}
+
     .brand{display:flex;align-items:center;gap:10px;font-weight:700}
     .brand .logo{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 0 5px var(--ring)}
+
     .nav-right{display:flex;align-items:center;gap:10px}
     .nav-links{display:flex;gap:14px}
-    .nav-links a{padding:8px 10px;border-radius:8px}
+    .nav-links a{padding:10px 12px;border-radius:10px}
+    .nav-links a:focus-visible{outline:2px solid var(--accent)}
     .nav-links a:hover{background:#eef2ff}
     [data-theme="dark"] .nav-links a:hover{background:#172247}
-    .theme-btn{background:#eef2ff;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px}
-    [data-theme="dark"] .theme-btn{background:#172247}
-    .hide-sm{display:inline}
-    @media (max-width: 900px){.hide-sm{display:none}}
 
+    .theme-btn,.menu-btn,.btn{background:#eef2ff;border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:10px;min-height:44px;line-height:1}
+    .btn{cursor:pointer}
+    [data-theme="dark"] .theme-btn,[data-theme="dark"] .menu-btn,[data-theme="dark"] .btn{background:#172247}
+
+    .hide-sm{display:inline}
+
+    /* Menu mobile (<=900px) */
+    @media (max-width: 900px){
+      .hide-sm{display:none}
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:absolute;right:3%;top:calc(var(--header-h) - 6px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:8px;width:min(92vw,340px);box-shadow:0 14px 40px rgba(0,0,0,.12)}
+      .nav-links.open a{padding:12px;border-radius:8px}
+    }
+
+    /* Hero responsive en grille */
     .hero{padding:56px 0 28px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
-    .title{font-size:36px;line-height:1.15;margin:0 0 8px}
     .subtitle{color:var(--muted);margin:0 0 16px}
-    .section{padding:32px 0}
+
     .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+
     .grid{display:grid;gap:14px}
-    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
     .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#eef2ff;border:1px solid var(--border);color:#22346b;font-weight:600;font-size:12px}
     [data-theme="dark"] .badge{background:#172247;color:#cdd9ff;border-color:#223163}
+
     .footer{padding:28px 0;color:var(--muted);border-top:1px solid var(--border);margin-top:24px}
-    h2{margin:0 0 12px}
+
     ul.clean{margin:0;padding-left:18px}
+
     input,textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#fff;color: var(--text);outline:none}
     [data-theme="dark"] input,[data-theme="dark"] textarea{background:#0d1533;color:#e9eef7}
-    input:focus,textarea:focus{border-color:#9db7ff;box-shadow:0 0 0 6px var(--ring)}
+    input:focus,textarea:focus,.btn:focus{border-color:#9db7ff;box-shadow:0 0 0 6px var(--ring)}
+
     .pub{padding:10px;border-left:3px solid #c9d6ff}
     [data-theme="dark"] .pub{border-left-color:#233261}
     .note{font-size:12px;color:var(--muted)}
     .pill{display:inline-block;padding:4px 10px;border:1px solid #cdd5e6;border-radius:999px;color:#36435c}
     [data-theme="dark"] .pill{border-color:#31406f;color:#d3e1ff}
+
     .portrait{padding:0;overflow:hidden}
-    .portrait img{width:100%;display:block;border-radius:12px;aspect-ratio:4/5;object-fit:cover;background:#f1f4fb}
+    .portrait img{width:100%;display:block;border-radius:12px;aspect-ratio:4/5;object-fit:cover;background:#f1f4fb;max-width:520px;margin-inline:auto}
     [data-theme="dark"] .portrait img{background:#0d152e}
-    @media (max-width: 900px){.hero{grid-template-columns:1fr}.nav-links{display:none}.title{font-size:28px}}
+
+    /* Petites largeurs supplémentaires */
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+    }
+    @media (max-width: 600px){
+      .container{width:min(100%, 94%)}
+      .card{padding:14px}
+      .subtitle{font-size:15px}
+      .nav{padding-inline:2px}
+    }
+
+    /* Accessibilité et mouvement réduit */
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto!important;transition:none!important}
+      header{backdrop-filter:none}
+    }
+
+    /* Skip link */
+    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{left:12px;top:12px;width:auto;height:auto;background:var(--surface);border:1px solid var(--border);padding:10px;border-radius:8px;z-index:100}
   </style>
 
-  
 </head>
 
 <body>
+  <a href="#accueil" class="skip-link">Aller au contenu principal</a>
   <header>
     <div class="container nav">
       <a class="brand" href="#accueil" aria-label="Aller à l’accueil"><div class="logo" aria-hidden="true"></div> Ibrahim Bakari</a>
       <div class="nav-right">
-        <nav class="nav-links" id="navLinks">
+        <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
           <a href="#accueil">Accueil</a>
           <a href="#experiences">Expériences</a>
           <a href="#competences">Compétences</a>
@@ -143,12 +198,13 @@
           <a href="#responsabilites">Responsabilités</a>
           <a href="#contact">Contact</a>
         </nav>
+        <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu" aria-controls="navLinks" aria-expanded="false">☰</button>
         <button class="theme-btn" id="themeBtn" aria-label="Basculer clair/sombre" aria-pressed="false">🌓 <span class="hide-sm">Thème</span></button>
       </div>
     </div>
   </header>
 
-  <main class="container">
+  <main class="container" id="main">
     <section id="accueil" class="hero">
       <div>
         <span class="badge">Épidémiologie — Recherche & Enseignement</span>
@@ -166,7 +222,7 @@
         </div>
       </div>
       <figure class="card portrait" aria-label="Photographie">
-        <img src="assets/img/portrait.JPG" alt="Photographie d’Ibrahim Bakari" loading="lazy" decoding="async" />
+        <img src="assets/img/portrait.JPG" alt="Photographie d’Ibrahim Bakari" loading="lazy" decoding="async" width="800" height="1000" />
       </figure>
     </section>
 
@@ -208,7 +264,7 @@
           </ul>
         </div>
         <div class="card">
-          <h3>Encadrements & autres</h3>
+          <h3>Encadrement & autres</h3>
           <ul class="clean">
             <li>
               Promoteur externe et jury : mémoire de fin d'études — ISSOUF Salha - Bachelor soins infirmiers —
@@ -219,40 +275,39 @@
               en médecine (2017 - )
             </li>
           </ul>
-
         </div>
       </div>
     </section>
 
     <section id="responsabilites" class="section">
-  <h2>Responsabilités collectives et administratives</h2>
-  <div class="card">
-    <div style="display:grid; gap:12px">
-      <div>
-        <h3 style="margin:0 0 6px">Confédération des Jeunes Chercheurs (CJC)</h3>
-        <p style="margin:0">
-          Président (2023–2025).
-          <a href="https://cjc.jeunes-chercheurs.org/" target="_blank" rel="noopener noreferrer">Site de la CJC</a>
-        </p>
-      </div>
+      <h2>Responsabilités collectives et administratives</h2>
+      <div class="card">
+        <div style="display:grid; gap:12px">
+          <div>
+            <h3 style="margin:0 0 6px">Confédération des Jeunes Chercheurs (CJC)</h3>
+            <p style="margin:0">
+              Président (2023–2025).
+              <a href="https://cjc.jeunes-chercheurs.org/" target="_blank" rel="noopener noreferrer">Site de la CJC</a>
+            </p>
+          </div>
 
-      <div>
-        <h3 style="margin:0 0 6px">Associations des doctorants et anciens doctorants de l'EDSP</h3>
-        <p style="margin:0">
-          Vice-président (2023–2025).
-          <a href="https://annuaire-entreprises.data.gouv.fr/entreprise/doc-sp-789490703" target="_blank" rel="noopener noreferrer">Fiche annuaire</a>
-        </p>
-      </div>
+          <div>
+            <h3 style="margin:0 0 6px">Associations des doctorants et anciens doctorants de l'EDSP</h3>
+            <p style="margin:0">
+              Vice-président (2023–2025).
+              <a href="https://annuaire-entreprises.data.gouv.fr/entreprise/doc-sp-789490703" target="_blank" rel="noopener noreferrer">Fiche annuaire</a>
+            </p>
+          </div>
 
-      <div>
-        <h3 style="margin:0 0 6px">Conseil de gestion de la Graduate School de Santé Publique — Université Paris-Saclay</h3>
-        <p style="margin:0">
-          Membre élu tête de liste, représentant des doctorants (2023–2025).
-        </p>
+          <div>
+            <h3 style="margin:0 0 6px">Conseil de gestion de la Graduate School de Santé Publique — Université Paris-Saclay</h3>
+            <p style="margin:0">
+              Membre élu tête de liste, représentant doctorants (2023–2025).
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
 
     <section id="contact" class="section">
@@ -269,15 +324,12 @@
         </div>
         <div class="card">
           <h3>Me contacter</h3>
-          <!-- Mode réel : on relie le submit au JS -->
           <form id="contactForm" action="https://formspree.io/f/xandnyol" method="POST">
             <input type="email" name="email" required placeholder="you@example.com" />
             <textarea name="message" rows="4" required placeholder="Votre message…"></textarea>
-             <!-- anti-spam honeypot -->
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-            <button type="submit">Envoyer</button>
+            <button type="submit" class="btn">Envoyer</button>
           </form>
-          
         </div>
       </div>
     </section>
@@ -287,23 +339,23 @@
     <div class="container">© <span id="year"></span> Ibrahim Bakari — Épidémiologiste.</div>
   </footer>
   
-<!-- Script pour gerer l'envoi des mails -->
+  <!-- Script pour gerer l'envoi des mails -->
   <script>
-        document.getElementById("contactForm").addEventListener("submit", async function(e){e.preventDefault();
-          const form = e.target;
-          const data = new FormData(form);
-          const res = await fetch(form.action, {
-            method: form.method,
-            body: data,
-            headers: { 'Accept': 'application/json' }
-          });
-          if(res.ok){
-            alert("✅ Merci ! Votre message a bien été envoyé.");
-            form.reset();
-          } else {
-            alert("❌ Oups, une erreur est survenue. Réessayez.");
-          }
-        });
+    document.getElementById("contactForm").addEventListener("submit", async function(e){e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const res = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if(res.ok){
+        alert("✅ Merci ! Votre message a bien été envoyé.");
+        form.reset();
+      } else {
+        alert("❌ Oups, une erreur est survenue. Réessayez.");
+      }
+    });
   </script>
 
   <script>
@@ -313,10 +365,11 @@
     const yearEl = document.getElementById('year');
     yearEl.textContent = new Date().getFullYear();
 
-    // Thème
+    // Thème (respecte le thème système au 1er chargement)
     const themeBtn = document.getElementById('themeBtn');
     const rootEl = document.documentElement;
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
     rootEl.setAttribute('data-theme', savedTheme);
     themeBtn.setAttribute('aria-pressed', savedTheme === 'dark');
 
@@ -326,27 +379,22 @@
       rootEl.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
       themeBtn.setAttribute('aria-pressed', next === 'dark');
-      // On ne modifie pas le contenu du bouton pour garder <span class="hide-sm">
     });
 
-    // Toast + submit démo
-    function handleSubmit(e){
-      e.preventDefault();
-      toast('Merci ! Votre message a été envoyé (démo).');
-      e.target.reset();
-      return false;
-    }
-    function toast(msg){
-      const t=document.createElement('div');
-      t.textContent=msg;
-      Object.assign(t.style,{
-        position:'fixed',left:'50%',bottom:'24px',transform:'translateX(-50%)',
-        background:'linear-gradient(135deg,var(--accent),var(--accent2))', color:'#fff',
-        padding:'12px 16px',borderRadius:'10px', boxShadow:'0 10px 30px rgba(0,0,0,.2)',
-        zIndex:1000,fontWeight:700
-      });
-      document.body.appendChild(t); setTimeout(()=>t.remove(),2400);
-    }
+    // Menu mobile
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', ()=>{
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open);
+      menuBtn.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    // Fermer au clic extérieur
+    document.addEventListener('click', (e)=>{
+      if(!navLinks.classList.contains('open')) return;
+      const within = navLinks.contains(e.target) || menuBtn.contains(e.target);
+      if(!within){ navLinks.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+    });
 
     // Publications
     const pubList = document.getElementById('pubList');
@@ -483,7 +531,7 @@
       return [y,m,dd].filter(Boolean).join('-');
     }
 
-    function escapeHtml(str){
+    function escapeHtml2(str){
       return String(str || '').replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
     }
 
@@ -496,8 +544,8 @@
       empList.innerHTML = items.map(e => {
         const loc = [e.city, e.country].filter(Boolean).join(', ');
         const dates = [e.start, e.end].filter(Boolean).join(' → ');
-        return `<div class="pub"><div><strong>${escapeHtml(e.role || e.org)}</strong></div>
-          <div>${escapeHtml(e.org)}${loc ? ' · '+escapeHtml(loc): ''}${dates ? ' · '+escapeHtml(dates): ''}</div></div>`;
+        return `<div class="pub"><div><strong>${escapeHtml2(e.role || e.org)}</strong></div>
+          <div>${escapeHtml2(e.org)}${loc ? ' · '+escapeHtml2(loc): ''}${dates ? ' · '+escapeHtml2(dates): ''}</div></div>`;
       }).join('');
     }
 
