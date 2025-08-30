@@ -108,3 +108,22 @@
     /* Skip link */
     .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip-link:focus{left:12px;top:12px;width:auto;height:auto;background:var(--surface);border:1px solid var(--border);padding:10px;border-radius:8px;z-index:100}
+
+/* Bouton menu (mobile) */
+.menu-btn{background:#eef2ff;border:1px solid var(--border);color:var(--text);
+  padding:8px 12px;border-radius:8px;display:none}
+[data-theme="dark"] .menu-btn{background:#172247}
+
+/* Cacher le menu en mobile + style du panneau */
+@media (max-width: 900px){
+  .menu-btn{display:inline-block}
+  .nav-links{display:none}
+  .nav-links.open{
+    display:flex; flex-direction:column;
+    position:absolute; right:3%; top:60px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:8px; width:min(92vw,340px);
+    box-shadow:0 14px 40px rgba(0,0,0,.12); z-index:50;
+  }
+  .nav-links.open a{padding:12px; border-radius:8px}
+}
