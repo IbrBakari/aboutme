@@ -1,0 +1,11 @@
+title: "Ibrahim Bakari — Épidémiologiste"
+description: "Site personnel d'Ibrahim Bakari. Doctorant en Santé Publique spécialité Epidémiologie sur le thème : expositions professionnelles et santé respiratoire dans la cohorte CONSTANCES"
+url: "https://ibrbakari.github.io"   # Ici j'indique mon nom d' utilisateur GitHub
+baseurl: "/aboutme"                      # mon dépôt s’appelle aboutme → on garde /aboutme
+markdown: kramdown
+theme: null
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag

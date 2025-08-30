@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  {% include head.html %}
+</head>
+<body>
+  {% include header.html %}
+
+  <main class="container">
+    {{ content }}         <!-- L'endroit où le contenu specifique à chaque page s'injecte -->
+  </main>
+
+  {% include footer.html %}
+  {% include scripts.html %}
+</body>
+</html>

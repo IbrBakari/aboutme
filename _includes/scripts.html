@@ -1,0 +1,122 @@
+<script>
+  const ORCID_ID = '0000-0002-7173-0727';
+
+  // Mise à jour automatique de l'année dans le footer
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Gestion du thème clair/sombre
+  const themeBtn = document.getElementById('themeBtn');
+  const rootEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    rootEl.setAttribute('data-theme', savedTheme);
+  } else {
+    rootEl.setAttribute('data-theme', 'light');
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const curr = rootEl.getAttribute('data-theme') || 'light';
+      const next = curr === 'light' ? 'dark' : 'light';
+      rootEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.textContent = '🌓 Thème';
+    });
+  }
+
+  // Notifications (toasts)
+  function toast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    Object.assign(t.style, {
+      position: 'fixed',
+      left: '50%',
+      bottom: '24px',
+      transform: 'translateX(-50%)',
+      background: 'linear-gradient(135deg,var(--accent),var(--accent2))',
+      color: '#fff',
+      padding: '12px 16px',
+      borderRadius: '10px',
+      boxShadow: '0 10px 30px rgba(0,0,0,.2)',
+      zIndex: 1000,
+      fontWeight: 700
+    });
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2400);
+  }
+
+  // Publications ORCID
+  const pubList = document.getElementById('pubList');
+  const pubCount = document.getElementById('pubCount');
+
+  async function loadPublications() {
+    const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`;
+    try {
+      const res = await fetch(endpoint, {
+        headers: { 'Accept': 'application/vnd.orcid+json' },
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const items = (data['group'] || []).map(g => {
+        const work = g['work-summary']?.[0];
+        const title = work?.title?.title?.value || 'Sans titre';
+        const year = work?.['publication-date']?.year?.value || '';
+        const journal = work?.['journal-title']?.value || '';
+        const url = work?.url?.value || extractDOI(g) || '#';
+        return { title, year, journal, url };
+      }).sort((a, b) => (b.year || 0) - (a.year || 0));
+      renderPublications(items);
+    } catch (e) {
+      try {
+        const res2 = await fetch('{{ site.baseurl }}/publications.json', { cache: 'no-store' });
+        if (!res2.ok) throw new Error('HTTP ' + res2.status);
+        const items2 = await res2.json();
+        renderPublications(items2);
+      } catch (e2) {
+        if (pubList) pubList.innerHTML = '<div class="note">Impossible de charger les publications.</div>';
+      }
+    }
+  }
+
+  function extractDOI(group) {
+    try {
+      const ext = group['external-ids']['external-id'] || [];
+      const doi = ext.find(x => (x['external-id-type'] || '').toLowerCase() === 'doi');
+      if (doi) {
+        const v = doi['external-id-value'];
+        return v ? ('https://doi.org/' + v) : null;
+      }
+    } catch (_) { return null; }
+    return null;
+  }
+
+  function renderPublications(items) {
+    if (!items || !items.length) {
+      if (pubList) pubList.innerHTML = '<div class="note">Aucune publication trouvée pour l’instant.</div>';
+      return;
+    }
+    if (pubCount) {
+      pubCount.style.display = 'inline-block';
+      pubCount.textContent = items.length + ' entrées';
+    }
+    if (pubList) {
+      pubList.innerHTML = items.map(p => `
+        <div class="pub">
+          <div><strong>${escapeHtml(p.title)}</strong></div>
+          <div>${p.journal ? escapeHtml(p.journal) + ' · ' : ''}${p.year || ''}</div>
+          ${p.url && p.url !== '#' ? `<a href="${p.url}" target="_blank" rel="noopener">Lien</a>` : ''}
+        </div>`).join('');
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>\"']/g, m => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#039;"
+    }[m]));
+  }
+
+  document.addEventListener('DOMContentLoaded', loadPublications);
+</script>
+
+<script src="{{ site.baseurl }}/assets/js/site.js"></script>
