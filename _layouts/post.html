@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<article class="section" aria-labelledby="post-title">
+  <header class="card" style="margin-bottom:16px">
+    <h1 id="post-title" class="title" style="margin:0">{{ page.title }}</h1>
+    <p class="note" style="margin:8px 0 0">
+      Publié le {{ page.date | date: "%-d %B %Y" }}
+      {%- if page.author %} • {{ page.author }}{% endif -%}
+      {%- if page.tags and page.tags.size > 0 %} • Tags : {{ page.tags | join: ", " }}{% endif -%}
+    </p>
+  </header>
+
+  <div class="card">
+    {{ content }}
+  </div>
+</article>
