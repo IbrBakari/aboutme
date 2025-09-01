@@ -235,7 +235,21 @@
 
   // Appels au chargement (en plus de loadPublications déjà présent)
   document.addEventListener('DOMContentLoaded', loadEmployments);
+  
 
 </script>
 
+<script>
+// Ouvrir automatiquement les liens externes dans un nouvel onglet
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a[href^="http"]').forEach(a => {
+    const sameHost = a.href.startsWith(location.origin);
+    if (!sameHost) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
+  });
+});
+</script>
+
+
 <script src="{{ site.baseurl }}/assets/js/site.js"></script>
+
+
