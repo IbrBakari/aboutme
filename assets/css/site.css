@@ -84,8 +84,41 @@
     [data-theme="dark"] .pill{border-color:#31406f;color:#d3e1ff}
 
     .portrait{padding:0;overflow:hidden}
-    .portrait img{width:100%;display:block;border-radius:12px;aspect-ratio:4/5;object-fit:cover;background:#f1f4fb;max-width:520px;margin-inline:auto}
-    [data-theme="dark"] .portrait img{background:#0d152e}
+
+/* Par défaut : sans rognage */
+.portrait img {
+  width: 100%;
+  height: auto;
+  max-width: 520px;
+  display: block;
+  border-radius: 12px;
+  background: #f1f4fb;
+}
+
+/* Mode sombre */
+[data-theme="dark"] .portrait img {
+  background: #0d152e;
+}
+
+/* Sur écrans >= 700px : cadrage serré (peut rogner un peu) */
+@media (min-width: 700px){
+  .portrait img{
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 15%; /* ajuste le cadrage vertical */
+  }
+}
+
+/* Sur mobile : jamais de rognage */
+@media (max-width: 700px){
+  .portrait img{
+    aspect-ratio: auto;
+    object-fit: contain;
+    max-width: clamp(260px, 88vw, 520px);
+  }
+}
+
+
 
     /* Petites largeurs supplémentaires */
     @media (max-width: 900px){
