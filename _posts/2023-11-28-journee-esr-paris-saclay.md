@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Retour sur la journée « Nouvelles perspectives pour l’enseignement supérieur et la recherche » – Université Paris-Saclay"
+title: "Retour sur la journée ESR – Université Paris-Saclay"
 author: "Ibrahim Bakari"
 tags: [enseignement supérieur, recherche, doctorat, Université Paris-Saclay]
 description: "Retour sur ma participation à la journée Nouvelles perspectives pour l’ESR organisée à l’Université Paris-Saclay, avec échanges autour de l’avenir du métier d’enseignant-chercheur."
