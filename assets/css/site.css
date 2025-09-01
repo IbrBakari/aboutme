@@ -172,3 +172,10 @@
 
 /* 20250901 BIM :Focus visibles */
 :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:10px }
+
+/* 2025/09/01 BIM Préférences “mouvement réduit” (confort) */
+@media (prefers-reduced-motion: reduce){
+  *{ scroll-behavior:auto!important; transition:none!important; animation:none!important }
+  header{backdrop-filter:none}
+}
+
