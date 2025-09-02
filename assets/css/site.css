@@ -179,3 +179,20 @@
   header{backdrop-filter:none}
 }
 
+/* BIM 20250902 : Dropdown menu */
+.dropdown{position:relative}
+.dropdown-menu{
+  display:none;
+  position:absolute;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  margin-top:6px;
+  padding:6px;
+  min-width:180px;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+}
+.dropdown:hover .dropdown-menu{display:block}
+.dropdown-menu a{display:block;padding:8px;border-radius:6px}
+.dropdown-menu a:hover{background:#eef2ff}
+[data-theme="dark"] .dropdown-menu a:hover{background:#172247}
