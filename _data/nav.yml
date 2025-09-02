@@ -1,20 +1,22 @@
 - title: Accueil
   url: /
 
-- title: Formation
-  url: /#formation
+- title: Blog
+  url: /blog/
 
 - title: Publications
   url: /#publications
 
 - title: Enseignement
   url: /#enseignement
+  children:
+    - title: Cours
+      url: /cours/
+    - title: Ressources
+      url: /ressources/
 
 - title: Responsabilités
   url: /#responsabilites
-
-- title: Blog
-  url: /blog/
 
 - title: Contact
   url: /#contact
