@@ -4,14 +4,24 @@
       <div class="logo" aria-hidden="true"></div> Ibrahim Bakari
     </div>
     <div class="nav-right">
-      <nav class="nav-links" id="navLinks">
-        <a href="{{ site.baseurl }}/#accueil">Accueil</a>
-        <a href="{{ site.baseurl }}/blog/">Blog</a>
-        <a href="{{ site.baseurl }}/#publications">Publications</a>
-        <a href="{{ site.baseurl }}/#enseignement">Enseignement</a>
-        <a href="{{ site.baseurl }}/#responsabilites">Responsabilités</a>
-        <a href="{{ site.baseurl }}/#contact">Contact</a>
+      <!-- BIM 20250902 : Remplace la partie du <nav> par une boucle qui lit nav.yml -->
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+              {% for item in site.data.nav %}
+                {% if item.children %}
+                  <div class="dropdown">
+                    <a href="#">{{ item.title }}</a>
+                    <div class="dropdown-menu">
+                      {% for child in item.children %}
+                        <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% else %}
+                  <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% endif %}
+              {% endfor %}
       </nav>
+
       <button class="menu-btn" id="menuBtn"
         aria-label="Ouvrir le menu" aria-controls="navLinks" aria-expanded="false">☰</button>
       
