@@ -125,11 +125,15 @@ title: "Accueil"
         <div class="card">
           <h3>Me contacter</h3>
           <form id="contactForm" action="https://formspree.io/f/xandnyol" method="POST">
-            <input type="email" name="email" required placeholder="you@example.com" />
-            <textarea name="message" rows="4" required placeholder="Votre message…"></textarea>
-            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-            <button type="submit" class="btn">Envoyer</button>
-          </form>
+                  <label for="email">Votre e-mail</label>
+                  <input id="email" type="email" name="email" autocomplete="email" required placeholder="you@example.com" />
+                
+                  <label for="message">Message</label>
+                  <textarea id="message" name="message" rows="4" required placeholder="Votre message…"></textarea>
+                
+                  <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+                  <button type="submit" class="btn">Envoyer</button>
+        </form>
         </div>
       </div>
     </section>
