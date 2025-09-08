@@ -171,6 +171,7 @@
 
    // --- Expériences ORCID : 20290908 BIM tentative resolution problème de syncrhonisation des emplois ---
 
+
   function loadEmployments() {
     fetch('{{ site.baseurl }}/data/employments.json')
       .then(res => {
@@ -178,19 +179,9 @@
         return res.json();
       })
       .then(data => {
-        // data peut être un objet ORCID complet, on extrait les entrées
-        let items = [];
-        if (data['employment-summary']) {
-          // Cas où ORCID renvoie directement un tableau
-          items = data['employment-summary'];
-        } else if (data['employment-summary'] === undefined && data['employment-summary'] !== null) {
-          // Cas où c'est dans data['employment-summary'] imbriqué
-          items = data['employment-summary'] || [];
-        } else if (data['employment-summary'] === undefined && data['employment-summary'] === null) {
-          items = [];
-        }
+        // ORCID renvoie un objet avec "employment-summary"
+        const items = data['employment-summary'] || [];
 
-        // Normalisation pour correspondre au renderEmployments()
         const normalized = items.map(s => ({
           org: s.organization?.name || '',
           city: s.organization?.address?.city || '',
@@ -212,15 +203,13 @@
       })
       .catch(err => {
         console.error(err);
-        empList.innerHTML = '<div class="note">Impossible de charger les expériences.</div>';
+        document.getElementById('empList').innerHTML =
+          '<div class="note">Impossible de charger les expériences.</div>';
       });
   }
 
   document.addEventListener('DOMContentLoaded', loadEmployments);
 </script>
-
-
-
 
 
 
