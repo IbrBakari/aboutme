@@ -166,100 +166,69 @@
   }
 </script>
 
-
+ 
 <script>
-   // --- Expériences ORCID : 20290908 BIM tentative resolution problème de syncrhonisation des emplois ---
+  // --- Expériences ORCID : 20290908 BIM tentative resolution problème de syncrhonisation des emplois ---
 const ORCID_ID = '0000-0002-7173-0727'; // Ton ID ORCID
 const empList  = document.getElementById('empList');
 const empCount = document.getElementById('empCount');
-
-// URL fallback absolue (utile hors Jekyll)
-const FALLBACK_URL = (typeof site !== 'undefined' && site.baseurl)
-  ? `${site.baseurl}/employments.json`
-  : '/employments.json';
+const FALLBACK_URL = '/employments.json'; // Fallback local
 
 async function loadEmployments() {
-  if (!empList) return; // section absente
-  if (!ORCID_ID) {
-    return showMessage('❌ ORCID_ID non défini. Utilisation du fallback.', true);
-  }
-
-  const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
-
+  if (!empList) return;
   try {
-    const res = await fetch(endpoint, {
-      headers: { 'Accept': 'application/vnd.orcid+json' },
-      cache: 'no-store'
-    });
-
+    const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
+    const res = await fetch(endpoint, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    console.debug('📦 Données ORCID reçues :', data);
-
-    const items = normalizeEmployments(data);
-
+    const text = await res.text();
+    const xml = new DOMParser().parseFromString(text, "application/xml");
+    const items = parseEmploymentsXML(xml);
     if (!items.length) {
-      return showMessage('⚠️ Aucune donnée publique trouvée sur ORCID. Utilisation du fallback.', true);
+      console.warn('Aucune donnée ORCID, fallback…');
+      return loadEmploymentsFallback();
     }
-
     renderEmployments(items);
-    showMessage(`✅ Synchronisé depuis ORCID (${ORCID_ID}).`, false);
   } catch (err) {
-    console.error('❌ Erreur ORCID :', err);
-    if (err instanceof TypeError && err.message.includes('fetch')) {
-      showMessage('🌐 Erreur réseau ou CORS avec ORCID. Utilisation du fallback.', true);
-    } else {
-      showMessage(`❌ Erreur ORCID (${err.message}). Utilisation du fallback.`, true);
-    }
+    console.error('Erreur ORCID :', err);
+    loadEmploymentsFallback();
   }
 }
 
 async function loadEmploymentsFallback() {
   try {
-    const res2 = await fetch(FALLBACK_URL, { cache: 'no-store' });
-    if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
-    const items2 = await res2.json();
-    console.debug('📦 Données fallback reçues :', items2);
-    renderEmployments(items2);
+    const res = await fetch(FALLBACK_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const items = await res.json();
+    renderEmployments(items);
   } catch (err) {
-    console.error('❌ Erreur fallback :', err);
+    console.error('Erreur fallback :', err);
     empList.innerHTML = '<div class="note">Impossible de charger les expériences (ORCID et fallback indisponibles).</div>';
   }
 }
 
-function normalizeEmployments(data) {
-  const summaries =
-    data?.employments?.['employment-summary'] ||
-    data?.['employment-summary'] ||
-    data?.['activities-summary']?.employments?.['employment-summary'] ||
-    [];
-
-  return summaries.map(s => {
-    const org     = s?.organization?.name || '';
-    const city    = s?.organization?.address?.city || '';
-    const country = s?.organization?.address?.country || '';
-    const role    = s?.['role-title'] || s?.['department-name'] || '';
-    const start   = joinDate(s?.['start-date']);
-    const end     = joinDate(s?.['end-date']);
+function parseEmploymentsXML(xml) {
+  return [...xml.querySelectorAll('employment\\:employment-summary')].map(s => {
+    const org     = s.querySelector('common\\:name')?.textContent || '';
+    const city    = s.querySelector('common\\:city')?.textContent || '';
+    const country = s.querySelector('common\\:country')?.textContent || '';
+    const role    = s.querySelector('common\\:department-name')?.textContent || '';
+    const start   = joinDateXML(s.querySelector('common\\:start-date'));
+    const end     = joinDateXML(s.querySelector('common\\:end-date'));
     return { org, city, country, role, start, end };
-  }).filter(e => e.org || e.role);
+  });
 }
 
-function joinDate(d) {
-  if (!d) return '';
-  const y  = d?.year?.value || '';
-  const m  = d?.month?.value || '';
-  const dd = d?.day?.value || '';
-  return [y, m, dd].filter(Boolean).join('-');
+function joinDateXML(node) {
+  if (!node) return '';
+  const y = node.querySelector('common\\:year')?.textContent || '';
+  const m = node.querySelector('common\\:month')?.textContent || '';
+  const d = node.querySelector('common\\:day')?.textContent || '';
+  return [y, m, d].filter(Boolean).join('-');
 }
 
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, m => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
   }[m]));
 }
 
@@ -280,17 +249,6 @@ function renderEmployments(items) {
       <div>${esc(e.org)}${loc ? ' · ' + esc(loc) : ''}${dates ? ' · ' + esc(dates) : ''}</div>
     </div>`;
   }).join('');
-}
-
-function showMessage(msg, useFallback) {
-  if (useFallback) {
-    loadEmploymentsFallback();
-  }
-  const note = document.createElement('div');
-  note.className = 'note';
-  note.textContent = msg;
-  empList.innerHTML = '';
-  empList.appendChild(note);
 }
 
 document.addEventListener('DOMContentLoaded', loadEmployments);
