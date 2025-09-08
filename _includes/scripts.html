@@ -166,9 +166,10 @@
   }
 </script>
 
- <script>
+
+<script>
    // --- Expériences ORCID : 20290908 BIM tentative resolution problème de syncrhonisation des emplois ---
-const ORCID_ID = '0000-0002-7173-0727'; // Mon ID ORCID
+const ORCID_ID = '0000-0002-7173-0727'; // Ton ID ORCID
 const empList  = document.getElementById('empList');
 const empCount = document.getElementById('empCount');
 
@@ -180,8 +181,7 @@ const FALLBACK_URL = (typeof site !== 'undefined' && site.baseurl)
 async function loadEmployments() {
   if (!empList) return; // section absente
   if (!ORCID_ID) {
-    console.error('❌ ORCID_ID non défini');
-    return loadEmploymentsFallback();
+    return showMessage('❌ ORCID_ID non défini. Utilisation du fallback.', true);
   }
 
   const endpoint = `https://pub.orcid.org/v3.0/${ORCID_ID}/employments`;
@@ -197,15 +197,20 @@ async function loadEmployments() {
     console.debug('📦 Données ORCID reçues :', data);
 
     const items = normalizeEmployments(data);
+
     if (!items.length) {
-      console.warn('⚠️ Aucune expérience trouvée dans ORCID, fallback…');
-      return loadEmploymentsFallback();
+      return showMessage('⚠️ Aucune donnée publique trouvée sur ORCID. Utilisation du fallback.', true);
     }
 
     renderEmployments(items);
+    showMessage(`✅ Synchronisé depuis ORCID (${ORCID_ID}).`, false);
   } catch (err) {
     console.error('❌ Erreur ORCID :', err);
-    loadEmploymentsFallback();
+    if (err instanceof TypeError && err.message.includes('fetch')) {
+      showMessage('🌐 Erreur réseau ou CORS avec ORCID. Utilisation du fallback.', true);
+    } else {
+      showMessage(`❌ Erreur ORCID (${err.message}). Utilisation du fallback.`, true);
+    }
   }
 }
 
@@ -277,8 +282,20 @@ function renderEmployments(items) {
   }).join('');
 }
 
+function showMessage(msg, useFallback) {
+  if (useFallback) {
+    loadEmploymentsFallback();
+  }
+  const note = document.createElement('div');
+  note.className = 'note';
+  note.textContent = msg;
+  empList.innerHTML = '';
+  empList.appendChild(note);
+}
+
 document.addEventListener('DOMContentLoaded', loadEmployments);
 </script>
+
 
 
 
