@@ -168,11 +168,12 @@
 
  
 <script>
-  // --- Expériences ORCID : 20290908 BIM tentative resolution problème de syncrhonisation des emplois ---
-const ORCID_ID = '0000-0002-7173-0727'; // Ton ID ORCID
+
+   // --- Expériences ORCID : 20290908 BIM tentative resolution problème de syncrhonisation des emplois ---
+const ORCID_ID = '0000-0002-7173-0727';
 const empList  = document.getElementById('empList');
 const empCount = document.getElementById('empCount');
-const FALLBACK_URL = '/employments.json'; // Fallback local
+const FALLBACK_URL = '/employments.json';
 
 async function loadEmployments() {
   if (!empList) return;
@@ -183,11 +184,12 @@ async function loadEmployments() {
     const text = await res.text();
     const xml = new DOMParser().parseFromString(text, "application/xml");
     const items = parseEmploymentsXML(xml);
-    if (!items.length) {
-      console.warn('Aucune donnée ORCID, fallback…');
-      return loadEmploymentsFallback();
+    if (items.length) {
+      renderEmployments(items);
+      return; // ✅ On a trouvé des données, on s'arrête là
     }
-    renderEmployments(items);
+    console.warn('Aucune donnée ORCID, fallback…');
+    loadEmploymentsFallback();
   } catch (err) {
     console.error('Erreur ORCID :', err);
     loadEmploymentsFallback();
@@ -202,7 +204,7 @@ async function loadEmploymentsFallback() {
     renderEmployments(items);
   } catch (err) {
     console.error('Erreur fallback :', err);
-    empList.innerHTML = '<div class="note">Impossible de charger les expériences (ORCID et fallback indisponibles).</div>';
+    empList.innerHTML = '<div class="note">Impossible de charger les expériences.</div>';
   }
 }
 
