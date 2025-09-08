@@ -1,0 +1,147 @@
+[
+{
+  "last-modified-date" : {
+    "value" : 1682523946055
+  },
+  "affiliation-group" : [ {
+    "last-modified-date" : {
+      "value" : 1682523915339
+    },
+    "external-ids" : {
+      "external-id" : [ ]
+    },
+    "summaries" : [ {
+      "employment-summary" : {
+        "created-date" : {
+          "value" : 1633081388573
+        },
+        "last-modified-date" : {
+          "value" : 1682523915339
+        },
+        "source" : {
+          "source-orcid" : {
+            "uri" : "https://orcid.org/0000-0002-7173-0727",
+            "path" : "0000-0002-7173-0727",
+            "host" : "orcid.org"
+          },
+          "source-client-id" : null,
+          "source-name" : {
+            "value" : "Ibrahim Bakari"
+          },
+          "assertion-origin-orcid" : null,
+          "assertion-origin-client-id" : null,
+          "assertion-origin-name" : null
+        },
+        "put-code" : 15981806,
+        "department-name" : "Epidémiologie Respiratoire Intégrative",
+        "role-title" : null,
+        "start-date" : {
+          "year" : {
+            "value" : "2020"
+          },
+          "month" : {
+            "value" : "07"
+          },
+          "day" : {
+            "value" : "01"
+          }
+        },
+        "end-date" : null,
+        "organization" : {
+          "name" : "Centre de recherche en Epidémiologie et Santé des Populations",
+          "address" : {
+            "city" : "Villejuif",
+            "region" : "Île-de-France",
+            "country" : "FR"
+          },
+          "disambiguated-organization" : {
+            "disambiguated-organization-identifier" : "54999",
+            "disambiguation-source" : "RINGGOLD"
+          }
+        },
+        "url" : null,
+        "external-ids" : null,
+        "display-index" : "1",
+        "visibility" : "public",
+        "path" : "/0000-0002-7173-0727/employment/15981806"
+      }
+    } ]
+  }, {
+    "last-modified-date" : {
+      "value" : 1682523946055
+    },
+    "external-ids" : {
+      "external-id" : [ ]
+    },
+    "summaries" : [ {
+      "employment-summary" : {
+        "created-date" : {
+          "value" : 1638109360653
+        },
+        "last-modified-date" : {
+          "value" : 1682523946055
+        },
+        "source" : {
+          "source-orcid" : {
+            "uri" : "https://orcid.org/0000-0002-7173-0727",
+            "path" : "0000-0002-7173-0727",
+            "host" : "orcid.org"
+          },
+          "source-client-id" : null,
+          "source-name" : {
+            "value" : "Ibrahim Bakari"
+          },
+          "assertion-origin-orcid" : null,
+          "assertion-origin-client-id" : null,
+          "assertion-origin-name" : null
+        },
+        "put-code" : 16487459,
+        "department-name" : "Unité de Recherche Clinique",
+        "role-title" : null,
+        "start-date" : {
+          "year" : {
+            "value" : "2019"
+          },
+          "month" : {
+            "value" : "02"
+          },
+          "day" : {
+            "value" : "01"
+          }
+        },
+        "end-date" : {
+          "year" : {
+            "value" : "2020"
+          },
+          "month" : {
+            "value" : "06"
+          },
+          "day" : {
+            "value" : "30"
+          }
+        },
+        "organization" : {
+          "name" : "Hôpitaux Universitaires Paris Nord Val de Seine",
+          "address" : {
+            "city" : "Paris",
+            "region" : "Île-de-France",
+            "country" : "FR"
+          },
+          "disambiguated-organization" : {
+            "disambiguated-organization-identifier" : "378774",
+            "disambiguation-source" : "RINGGOLD"
+          }
+        },
+        "url" : {
+          "value" : "http://recherche-hupnvs.aphp.fr/structures-de-recherche/urc-unite-de-recherche-clinique/"
+        },
+        "external-ids" : null,
+        "display-index" : "1",
+        "visibility" : "public",
+        "path" : "/0000-0002-7173-0727/employment/16487459"
+      }
+    } ]
+  } ],
+  "path" : "/0000-0002-7173-0727/employments"
+}
+]
