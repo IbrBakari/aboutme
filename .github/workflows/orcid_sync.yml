@@ -66,47 +66,15 @@ jobs:
                 }
             ]' > publications.json
 
-      # -------- Employments --------
-      - name: Fetch ORCID employments
-        run: |
-          set -euo pipefail
-          ORCID_ID="${{ steps.orcid.outputs.id }}"
-          curl -fS -s \
-            -H "Accept: application/vnd.orcid+json" \
-            -A "github-actions-orcid-sync" \
-            "https://pub.orcid.org/v3.0/${ORCID_ID}/employments" \
-          | jq '
-            def datefmt(d):
-              [d.year.value?, d.month.value?, d.day.value?]
-              | map(select(.!=null)) | join("-");
-            def toItem:
-              {
-                org: (.organization.name // ""),
-                city: (.organization.address.city // ""),
-                country: (.organization.address.country // ""),
-                role: (.["role-title"] // .["department-name"] // ""),
-                start: (datefmt(.["start-date"]? // {})),
-                end:   (datefmt(.["end-date"]? // {}))
-              };
-
-            if .employments? and .employments["affiliation-group"]?
-              then [ .employments["affiliation-group"][] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
-            elif ."affiliation-group"?
-              then [ ."affiliation-group"[] | .["employment-summary"] | (if type=="array" then .[] else . end) | toItem ]
-            else
-              [ (.employments["employment-summary"] // .["employment-summary"] // [])[] | toItem ]
-            end
-          ' > employments.json
-
       # -------- Commit si changement --------
       - name: Commit files
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add publications.json employments.json
+          git add publications.json
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Update publications.json & employments.json from ORCID"
+            git commit -m "Update publications.json from ORCID"
             git push
           else
             echo "No changes."
