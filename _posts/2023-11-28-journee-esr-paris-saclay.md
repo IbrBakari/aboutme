@@ -7,7 +7,7 @@ description: "Retour sur ma participation à la journée Nouvelles perspectives 
 ---
 
 
-![Photo d'Ibrahim Bakari au cours de la journée Nouvelles perspectives pour l'enseignement supérieur et la recherche à Paris-Saclay](/assets/img/ESR.jpg){:width="80%"}
+![Photo d'Ibrahim Bakari au cours de la journée Nouvelles perspectives pour l'enseignement supérieur et la recherche à Paris-Saclay]({{ "/assets/img/ESR.jpg" | relative_url }}){:width="80%"}
 
 
 
