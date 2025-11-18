@@ -5,7 +5,7 @@ author: "Ibrahim Bakari"
 tags: [doctorat, international, reseau, Université Paris-Saclay]
 description: "Retour sur l'afterwork organisé par l'Université Paris-Saclay, réunissant doctorants internationaux, étudiants et diplômés autour de moments d'échanges conviviaux."
 ---
----
+
 
 
 
@@ -15,7 +15,7 @@ description: "Retour sur l'afterwork organisé par l'Université Paris-Saclay, r
 ---
 
 
----
+
 Le 6 février 2024, j’ai participé à l’**Afterwork des doctorants internationaux** organisé par l’Université Paris-Saclay. Cette rencontre conviviale avait pour objectif de faire se rencontrer doctorants, étudiants et diplômés autour de leurs parcours, de leurs expériences et de leurs projets futurs en France et à l’international.
 
 Dans la lignée des initiatives portées par la Graduate School et l’International Welcome Desk, l’évènement a réuni une diversité de profils, reflétant la richesse de notre communauté académique.
@@ -36,7 +36,7 @@ Ces conversations m’ont rappelé l’importance de créer des espaces informel
 
 ---
 
-## L’alumni network en action
+## Le réseau Alumni
 
 Plusieurs diplômé·es internationaux·ales étaient présent·es pour témoigner de leur insertion professionnelle. Leurs retours d’expérience ont mis en lumière le rôle clé du réseau Université Paris-Saclay, qu’il s’agisse de décrocher un premier poste en entreprise, de monter un projet de recherche collaborative ou encore d’initier une carrière à l’étranger.
 
