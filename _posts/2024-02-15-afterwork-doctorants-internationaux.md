@@ -9,7 +9,7 @@ description: "Retour sur l'afterwork organisé par l'Université Paris-Saclay, r
 
 
 
-
+![Photo d'Ibrahim Bakari au cours de lAfterwork des doctorants internationaux à Paris-Saclay]({{ "/assets/img/afterworkp.png" | relative_url }}){:width="100%"}
 
 
 ---
